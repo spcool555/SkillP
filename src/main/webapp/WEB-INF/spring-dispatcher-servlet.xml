@@ -1,0 +1,229 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-4.2.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.2.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+	<mvc:annotation-driven></mvc:annotation-driven>
+	<context:component-scan base-package="com.skillpilots.service" />
+	<context:component-scan base-package="com.skillpilots.dao" />
+	<context:component-scan base-package="com.skillpilots.utility" />
+	<context:component-scan base-package="com.skillpilots.apicontroller"/>
+	<context:component-scan base-package="com.skillpilots.controller"></context:component-scan>
+    	
+    <import resource="jasper-view.xml"/>
+    
+	<bean id="jspViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+    <bean class="org.springframework.web.servlet.view.XmlViewResolver">
+        <property name="location" value="/WEB-INF/jasper-view.xml"/>
+        <property name="order" value="0"/>
+    </bean>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+	    <property name="driverClassName" value="org.postgresql.Driver" />
+	   <!-- <property name="url"
+			value="jdbc:postgresql://skillpilots-persuite.cyr2je4ksuqp.ap-south-1.rds.amazonaws.com:5432/SkillPilots" />
+		<property name="username" value="skillpilots" />
+		<property name="password" value="skillpilotsprod" /> -->
+		<!-- <property name="url"
+			value="jdbc:postgresql://skillpilots01.csavygqylgqd.ap-south-1.rds.amazonaws.com:5432/SkillPilots" />
+		<property name="username" value="skillpilots" />
+		<property name="password" value="skillpilotsprod" /> -->
+		 <!-- <property name="url"
+			value="jdbc:postgresql://139.59.36.248:5432/internsorbit_test" />
+		<property name="username" value="test" />
+		<property name="password" value="test@cluebix" /> -->
+		<!-- <property name="url"
+			value="jdbc:postgresql://139.59.36.248:5432/internsorbit_prod" />
+		<property name="username" value="postgres" />
+		<property name="password" value="postgres@io" /> -->
+		<!--<property name="url"
+			value="jdbc:postgresql://65.0.30.206:5432/test" />
+		<property name="username" value="postgres" />
+		<property name="password" value="production" />-->
+		<!--<property name="url"
+			value="jdbc:postgresql://3.6.36.221:5432/SkillPilots" />
+		<property name="username" value="postgres" />
+		<property name="password" value="skillpilotsprod" />  --> 
+		
+	 	<property name="url" value="jdbc:postgresql://digitalocenbackup.cyr2je4ksuqp.ap-south-1.rds.amazonaws.com:5432/skillpilots" />
+		<property name="username" value="postgres" />
+		<property name="password" value="cluematrixprod" />
+	</bean>
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- max upload size in bytes -->
+		<property name="defaultEncoding">
+			<value>utf-8</value>
+		</property>
+		<!-- <property name="maxUploadSize" value="20971520" /> --> <!-- 20MB -->
+		<property name="maxUploadSize" value="25971520" /> <!-- 20MB -->
+		<!-- max size of file in memory (in bytes) -->
+		<property name="maxInMemorySize" value="1048576" /> <!-- 1MB -->
+	</bean>
+
+	<!-- Hibernate 4 SessionFactory Bean definition -->
+	<bean id="hibernate4AnnotatedSessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="annotatedClasses">
+			<list>
+				<value>com.skillpilots.model.Student</value>
+				<value>com.skillpilots.model.StudentPast</value>
+				<value>com.skillpilots.model.SavedInternships</value>
+				<value>com.skillpilots.model.Address</value>
+				<value>com.skillpilots.model.BalanceData</value>
+				<value>com.skillpilots.model.College</value>
+				<value>com.skillpilots.model.User</value>
+				<value>com.skillpilots.model.Department</value>
+				<value>com.skillpilots.model.Company</value>
+				<value>com.skillpilots.model.CompAdvertisement</value>
+				<value>com.skillpilots.model.StudentRequest</value>
+				<value>com.skillpilots.model.CollCompTieup</value>
+				<value>com.skillpilots.model.CompDeptLink</value>
+				<value>com.skillpilots.model.CollDeptLink</value>
+				<value>com.skillpilots.model.ExternalRequest</value>
+				<value>com.skillpilots.model.CollegeInternalRequest</value>
+				<value>com.skillpilots.model.PackagesData</value>
+				<value>com.skillpilots.model.FunctionStatus</value>
+				<value>com.skillpilots.model.Internships</value>
+				<value>com.skillpilots.model.Technologies</value>
+				<value>com.skillpilots.model.CompanyInternalRequest</value>
+				<value>com.skillpilots.model.FeedbackData</value>
+				<value>com.skillpilots.model.InternshipSchedule</value>
+				<value>com.skillpilots.model.NewsletterSubscription</value>
+				<value>com.skillpilots.model.TopupData</value>
+				<value>com.skillpilots.model.Queries</value>
+				<value>com.skillpilots.model.ProgressData</value>
+				<value>com.skillpilots.model.Notifications</value>
+				<value>com.skillpilots.model.NotificationType</value>
+				<value>com.skillpilots.model.CompanyTest</value>
+				<value>com.skillpilots.model.SectionQuestion</value>
+				<value>com.skillpilots.model.TestSection</value>
+				<value>com.skillpilots.model.StudentTestData</value>
+				<value>com.skillpilots.model.GuestLecture</value>
+				<value>com.skillpilots.model.AssessmentTest</value>
+				<value>com.skillpilots.model.LiveChat</value>
+				<value>com.skillpilots.model.RegUser</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.enable_lazy_load_no_trans">true</prop>
+			</props>
+		</property>
+	</bean>
+<!-- <hibernate-mapping>
+    <class name="com.skillpilots.model.RegUser" table="reg_user" >
+        <id name="user_id" type="java.lang.String">
+            <column name="user_id" length="10"/>
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator"> 
+                The name of the sequence, the default is "hibernate_sequence"
+                <param name="sequence_name">user_id_seq</param>  
+            </generator>
+        </id>
+    </class>
+</hibernate-mapping> -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</bean>
+	<bean id="userBeanService" class="com.skillpilots.utility.UserBeanUtil"></bean>
+
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host">
+			<value>smtp.gmail.com</value>
+		</property>
+		<property name="port">
+			<value>587</value>
+		</property>
+		<property name="username">
+			<value>internsorbit2020@gmail.com</value>
+		</property>
+		<property name="password">
+			<value>uytmldadpxtwoyjr</value>
+		</property>
+		<property name="javaMailProperties">
+			<props>
+			<prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.debug">true</prop>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+                <prop key="mail.smtp.socketFactory.port">465</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host">
+			<value>smtp.gmail.com</value>
+		</property>
+		<property name="port">
+			<value>587</value>
+		</property>
+		<property name="protocol">
+			<value>smtp</value>
+		</property>
+		<property name="username">
+			<value>develop@gmail.com</value>
+		</property>
+		<property name="password">
+			<value>Cluebix@2020</value>
+		</property>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.debug">true</prop>
+			</props>
+		</property>
+	</bean> -->
+
+	<mvc:resources mapping="/bootstrap/**" location="/bootstrap/" />
+	<mvc:resources mapping="/plugins/**" location="/plugins/" />
+	<mvc:resources mapping="/dist/**" location="/dist/" />
+	<mvc:resources mapping="/build/**" location="/build/" />
+	<mvc:resources mapping="/myjs/**" location="/myjs/" />
+	<mvc:resources mapping="/images/**" location="/images/" />
+
+	<mvc:interceptors>
+		<bean id="webContentInterceptor"
+			class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+			<property name="cacheSeconds" value="0" />
+			<property name="useExpiresHeader" value="true" />
+			<property name="useCacheControlHeader" value="true" />
+			<property name="useCacheControlNoStore" value="true" />
+		</bean>
+	<bean class="com.skillpilots.interceptors.NotificationfInterceptor"></bean>
+	<bean class="com.skillpilots.interceptors.SessionHandlerInterceptor"></bean> 
+		
+	</mvc:interceptors>
+
+</beans>
