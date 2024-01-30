@@ -1,6 +1,8 @@
-
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@include file="user_session.jsp" %>
+	
 <!DOCTYPE html>
 <html>
 <head>
@@ -164,16 +166,15 @@ hr{
 	<div class="left-side-bar">
 		<div class="brand-logo">
 			<a href="javascript:;"> <img
-				src='/dist/dash/vendors/images/deskapp-logo.svg' alt="" class="dark-logo"> 
+				src="/dist/dash/vendors/images/deskapp-logo.svg" alt="" class="dark-logo"> 
 				<img src='/dist/dash/vendors/images/skillpilot_white.svg' alt="" class="light-logo">
 			</a>
 			<div class="close-sidebar" data-toggle="left-sidebar-close">
 				<i class="ion-close-round"></i>
 			</div>
 		</div>
-		<c:if test="${user_data.role eq '1'}">
-		<c:set var = "theString" value = "${user_data.user_id }"/>
-		<c:if test = "${fn:contains(theString, 'CL')}">
+		<c:if test="${user.role eq '5'}">
+	
 				<div class="menu-block customscroll">
 					<div class="sidebar-menu">
 						<ul id="accordion-menu">
@@ -223,11 +224,10 @@ hr{
 						</ul>
 					</div>
 				</div>
-			</c:if>
+		
 		</c:if>
-		<c:if test="${user_data.role eq '1'}">
-			<c:set var="theString" value="${user_data.user_id }" />
-			<c:if test="${fn:contains(theString, 'US')}">
+		<c:if test="${user.role eq '6'}">
+		
 				<div class="menu-block customscroll">
 					<div class="sidebar-menu">
 						<ul id="accordion-menu">
@@ -281,8 +281,8 @@ hr{
 						</ul>
 					</div>
 				</div>
-			</c:if></c:if>
-		<c:if test="${user_data.role eq '2'}">
+			</c:if>
+		<c:if test="${user.role eq '7'}">
 			<div class="menu-block customscroll">
 			<div class="sidebar-menu">
 				<ul id="accordion-menu">
@@ -319,7 +319,7 @@ hr{
 			</div>
 		</div>
 		</c:if>
-		<c:if test="${user_data.role eq '3'}">
+		<c:if test="${user.role eq '8'}">
 			<div class="menu-block customscroll">
 			<div class="sidebar-menu">
 				<ul id="accordion-menu">
@@ -363,8 +363,9 @@ hr{
 					style="background: #0f2c7eeb; color: white; border-radius: 5px;">
 					<span>Available Internship's</span>
 				</h2>
+				
 			</div>
-		<c:if test="${dept_validity ne ProjectConstants.reg_user_expiration_rsn_dept_del}">
+
 				<div class="row">
 					<div class="col-xl-4 mb-30" style="height: 440px;">
 						<div class="card-box height-100-p pd-20 scrollbar force-overflow"
@@ -397,7 +398,7 @@ hr{
 								</div>
 							</div>
 							<div class="form-group scroll scrollbar force-overflow"
-								id="div_location" style="overflow: auto; scroll; height: 180px;">
+								id="div_location" style="overflow: auto;  height: 180px;">
 								<c:forEach items="${cities}" var="location">
 									<div class="checkbox">
 										<label id="lbl_${location}"><input type="checkbox"
@@ -430,7 +431,7 @@ hr{
 								</div>
 							</div>
 							<div class="form-group scroll scrollbar force-overflow"
-								id="div_dept" style="overflow: auto; scroll; height: 200px;">
+								id="div_dept" style="overflow: auto;  height: 200px;">
 								<c:forEach items="${dept_names}" var="dept_name">
 									<div class="checkbox">
 										<c:set var="deptall_sp_remv"
@@ -469,7 +470,7 @@ hr{
 							<div class="form-group scroll scrollbar force-overflow" id="div_tech" style="overflow: auto; height: 200px;">
     <c:forEach items="${tech_names}" var="tech_name">
         <div class="checkbox">
-            <c:set var="techall_sp_remv" value="${fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(tech_name, '\'', ''),'/', ''),'+', ''),'#', ''),'.', ''),' ', '')}" />
+            
             <label id="lbl_${techall_sp_remv}" class="showall_tech">
                 <input type="checkbox" class="filter_checkbox" name="tech" value="${techall_sp_remv}">
                 ${tech_name}
@@ -543,12 +544,124 @@ hr{
 						</div>
 					</div>
 					<div class="col-xl-8 mb-30" style="height: 440px;">
-						<div class="card-box disp" id="style-3"
+						<div class="card-box " id="style-3"
 							style="position: relative; max-height: 100%; overflow: auto;">
+					
+					<c:forEach items="${compAdvertisements}" var="comp_add">
+						
+						<div class="row">
+							<div class="col-md-9">
+								<h6 class="h5 mb-20" data-toggle="tooltip"
+									data-placement="top" title="Description of internship"
+									style="font-weight: 100; background: #e9edf1cc; padding-left: 9px; color: #0C0C0C; font-weight: 400; border-radius: 12px;">
+									${comp_add.description}</h6>
+									
+							</div>
+							<div class="col-md-3 text-center">
+								<img
+									src="/get_logo?id=${comp_add.company_id}"
+									class="img-thumbnail"
+									style="max-width: 70px; max-height: 78px;">
+							</div>
 						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<h6 class="h6 mb-20" style="font-weight: 100;">
+									<i class="fa fa-map-marker" style="color: red"></i>&nbsp;${comp_add.location}
+								</h6>
+							</div>
+							<div class="col-md-9 truncate-normal">
+								<a href="javascript:void(0);"><span class="pointer cmpname cmp${comp_add.company_id}"
+									onclick="getCompanyDetails('${comp_add.company_id}');"
+									id="${comp_add.company_id}" style="color: #33A6F8;">${comp_add.company_id}</span></a>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<span style="font-size: 12px; color: gray;"><i
+									class="fa fa-play-circle-o"></i>&nbsp;START DATE</span><br>Immediately
+							</div>
+							<div class="col-md-3 text-center">
+								<span style="font-size: 12px; color: gray;"><i
+									class="fa fa-clock-o"></i>&nbsp;DURATION</span><br>${comp_add.duration}&nbsp;Week</div>
+							<div class="col-md-3 text-center">
+								<span style="font-size: 12px; color: gray;"><i
+									class="fa fa-rupee"></i>&nbsp;STIPEND</span><br> <i
+									class="fa fa-rupee"></i>&nbsp;${comp_add.stipend}
+							</div>
+							<div class="col-md-3 text-center">
+								<span style="font-size: 12px; color: gray;"><i
+									class="fa fa-users"></i>&nbsp;CAPACITY</span><br>${ comp_add.capacity }</div>
+						</div>
+						<br>
+						<div class="row">
+							<div class="col-md-6">
+								<span style="font-size: 12px; color: gray;"><i
+									class="fa fa-briefcase"></i>&nbsp;SKILL/TECHNOLOGY</span><br>${comp_add.technology_name}
+							</div>
+							<div class="col-md-3 text-center">
+								<br>
+								<button type="button" id="s_skill_wise"
+									onclick="show_schedule_modal('${comp_add.id}','${comp_add.duration}','ADV');"
+									class="btn btn-sm testme"
+									style="background: #0090f7cc; padding: 2px 6px 3px 6px; color: white;">
+									View Schedule&nbsp;<i class="fa fa-angle-double-right"></i>
+								</button>
+							</div>
+							<div class="col-md-3 text-center">
+								<br>
+							<c:if test="${user.role eq '7'}">
+			<div class="menu-block customscroll">
+			<div class="sidebar-menu">
+				<ul id="accordion-menu">
+					<li><a href="college_dashboard" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-house-1"></span><span class="mtext">Dashboard</span>
+					</a></li>
+					<li><a href="collegeViewInternships" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-certificate"></span><span class="mtext">Internships</span>
+					</a></li>
+					<li><a href="college_internal_req" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-computer-1"></span><span class="mtext">Internal Requests</span>
+					</a></li>
+					<li><a href="student_list" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-user3"></span><span class="mtext">Enroll Students</span>
+					</a></li>
+					<li><a href="college_dept" class="dropdown-toggle no-arrow">
+									<span class="micon dw dw-time-management"></span><span class="mtext">Manage
+										Departments</span>
+							</a></li>
+					<li><a href="getAppliedStudentsOfCollege" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-computer-1"></span><span class="mtext">Students Request</span>
+					</a></li>
+					<li><a href="college_report" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-edit-2"></span><span class="mtext">Internship Report</span>
+					</a></li>
+					<li><a href="certificate" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-certificate-1"></span><span class="mtext">View Certificate</span>
+					</a></li>
+					<li><a href="live_chat" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-chat3"></span><span class="mtext">Live Chat</span>
+					</a></li>
+
+				</ul>
+			</div>
+		</div>
+		</c:if><c:if test="${user.role ne  '6' and  user.role ne  '5'}">
+								<button type="button" id="applyButton" class="btn btn-sm margin"
+							data-toggle="modal" data-target="#confirmAdvertisement"
+							onclick="applyInternship('${comp_add.company_id}', '${comp_add.description}', '${comp_add.location}', '${comp_add.duration}', '${comp_add.stipend}', '${comp_add.capacity}', '${comp_add.technology_name}')"
+							style="background: #0090f7cc; padding: 2px 6px 2px 6px; color: white;">
+							Apply
+							<div class="ripple-container"></div>
+							</button>
+						</c:if>
+							</div>
+						</div>
+						<hr style="border: solid 1px;">
+					</c:forEach>
 					</div>
 				</div>
-			</c:if>
+			</div>
 			
 				<input type="hidden" id="role" value="${role}" />
 			<c:if test="${log_type eq 'ST' }">
@@ -607,5 +720,17 @@ hr{
 	}
 	
 	</script>
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			var modal = document.getElementById("raised_Modal2");
+			var btn = document.getElementById("applyButton");
+	
+			btn.onclick = function() {
+				modal.classList.add("show");
+				modal.style.display = "block";
+			}
+		});
+	</script>
+	
 </body>
 </html>

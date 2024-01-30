@@ -11,15 +11,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+@Data
 @Entity
 @Table(name="students_past")
 public class StudentPast {
 	@Id
 	@Column(name="stud_past_id")
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	long stud_past_id;
-	String student_id;
+	Long stud_past_id;
+	Long student_id;
 	String category;
 	String profile;
 	String organization;
@@ -51,12 +54,7 @@ public class StudentPast {
 	public void setStud_past_id(long stud_past_id) {
 		this.stud_past_id = stud_past_id;
 	}
-	public String getStudent_id() {
-		return student_id;
-	}
-	public void setStudent_id(String student_id) {
-		this.student_id = student_id;
-	}
+
 	public String getCategory() {
 		return category;
 	}

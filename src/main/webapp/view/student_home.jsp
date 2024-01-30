@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-
+<c:if test="${sessionScope.user ne null}">
 
 <!DOCTYPE html>
 <html>
@@ -282,7 +282,7 @@ hr{
 								<c:forEach items="${cities}" var="location">
 									<div class="checkbox">
 										<label id="lbl_${location}"><input type="checkbox"
-											class="filter_checkbox" name="location" value="${location}">&nbsp;${location}</label>
+											class="filter_checkbox" name="location" value="${location}">&nbsp;${location.location}</label>
 									</div>
 								</c:forEach>
 							</div>
@@ -348,14 +348,14 @@ hr{
 							</div>
 							<div class="form-group scroll scrollbar force-overflow"
 								id="div_tech" style="overflow: auto;  height: 200px;">
-								<c:forEach items="${tech_names}" var="tech_name">
+								<c:forEach items="${cities}" var="tech_name">
 									<div class="checkbox">
 										<c:set var="techall_sp_remv"
 											value="${fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(fn:replace(tech_name,
 											'\\'', ''),'/', ''),'+', ''),'#', ''),'.', ''),' ', '')}" />
 										<label id="lbl_${techall_sp_remv}" class="showall_tech"><input
 											type="checkbox" class="filter_checkbox" name="tech"
-											value="${techall_sp_remv}"> ${tech_name}</label>
+											value="${techall_sp_remv}"> ${tech_name.technology_name}</label>
 									</div>
 								</c:forEach>
 							</div>
@@ -424,13 +424,85 @@ hr{
 						</div>
 					</div>
 					<div class="col-xl-8 mb-30" style="height: 440px;">
-						<div class="card-box " id="style-35"
+						<div class="card-box  " id="style-3"
 							style="position: relative; max-height: 100%; overflow: auto;">
 							
-							<c:forEach items="${adv}" var="comp_add">
+							 <c:forEach items="${adv}" var="comp_add">
 							
-								${adv}
-							</c:forEach> 
+								<div class="row">
+									<div class="col-md-9">
+										<h6 class="h5 mb-20" data-toggle="tooltip"
+											data-placement="top" title="Description of internship"
+											style="font-weight: 100; background: #e9edf1cc; padding-left: 9px; color: #0C0C0C; font-weight: 400; border-radius: 12px;">
+											${comp_add.description}</h6>
+											
+									</div>
+									<div class="col-md-3 text-center">
+										<img
+											src="/get_logo?id=${comp_add.company_id}"
+											class="img-thumbnail"
+											style="max-width: 70px; max-height: 78px;">
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-3">
+										<h6 class="h6 mb-20" style="font-weight: 100;">
+											<i class="fa fa-map-marker" style="color: red"></i>&nbsp;${comp_add.location}
+										</h6>
+									</div>
+									<div class="col-md-9 truncate-normal">
+										<a href="javascript:void(0);"><span class="pointer cmpname cmp${comp_add.company_id}"
+											onclick="getCompanyDetails('${comp_add.company_id}');"
+											id="${comp_add.company_id}" style="color: #33A6F8;">${comp_add.company_id}</span></a>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-3">
+										<span style="font-size: 12px; color: gray;"><i
+											class="fa fa-play-circle-o"></i>&nbsp;START DATE</span><br>Immediately
+									</div>
+									<div class="col-md-3 text-center">
+										<span style="font-size: 12px; color: gray;"><i
+											class="fa fa-clock-o"></i>&nbsp;DURATION</span><br>${comp_add.duration}&nbsp;Week</div>
+									<div class="col-md-3 text-center">
+										<span style="font-size: 12px; color: gray;"><i
+											class="fa fa-rupee"></i>&nbsp;STIPEND</span><br> <i
+											class="fa fa-rupee"></i>&nbsp;${comp_add.stipend}
+									</div>
+									<div class="col-md-3 text-center">
+										<span style="font-size: 12px; color: gray;"><i
+											class="fa fa-users"></i>&nbsp;CAPACITY</span><br>${ comp_add.capacity }</div>
+								</div>
+								<br>
+								<div class="row">
+									<div class="col-md-6">
+										<span style="font-size: 12px; color: gray;"><i
+											class="fa fa-briefcase"></i>&nbsp;SKILL/TECHNOLOGY</span><br>${comp_add.technology_name}
+									</div>
+									<div class="col-md-3 text-center">
+										<br>
+										<button type="button" id="s_skill_wise"
+											onclick="show_schedule_modal('${comp_add.id}','${comp_add.duration}','ADV');"
+											class="btn btn-sm testme"
+											style="background: #0090f7cc; padding: 2px 6px 3px 6px; color: white;">
+											View Schedule&nbsp;<i class="fa fa-angle-double-right"></i>
+										</button>
+									</div>
+									<div class="col-md-3 text-center">
+										<br>
+										
+										<button type="button" id="applyButton" class="btn btn-sm margin"
+        data-toggle="modal" data-target="#confirmAdvertisement"
+        onclick="applyInternship('${comp_add.company_id}', '${comp_add.description}', '${comp_add.location}', '${comp_add.duration}', '${comp_add.stipend}', '${comp_add.capacity}', '${comp_add.technology_name}')"
+        style="background: #0090f7cc; padding: 2px 6px 2px 6px; color: white;">
+    Apply
+    <div class="ripple-container"></div>
+</button>
+
+									</div>
+								</div>
+								<hr style="border: solid 1px;">
+							</c:forEach>
 						</div>
 					</div>
 				</div>
@@ -443,37 +515,48 @@ hr{
 					further details.
 				</h1>
 			</c:if>
-			<c:if test="${log_type eq 'ST'}">
-				<div class="modal fade show" id="confirmAdvertisement" tabindex="-1"
-					role="dialog" aria-labelledby="myLargeModalLabel" aria-modal="true">
-					<div class="modal-dialog modal-dialog-centered">
-						<!-- Modal content-->
-						<div class="modal-content modelfix">
-							<div class="panel-heading">
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<h5 class="modal-title"
-									style="background: #0073b7; color: white; font-weight: 400; padding-left: 15px;">Are
-									you sure you want to apply?</h5>
-							</div>
+			<div class="modal fade" id="confirmAdvertisement" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Are you sure you want to apply?</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
 							<div class="modal-body">
 								<span>You are applying for internship in <strong><span
-										id="tech" style="color: #1b00ff"></span></strong> at <strong>
-										<span id="company" style="color: #1b00ff"></span>
-								</strong> for <strong style="color: #1b00ff"><span id="duration"
-										style="color: #1b00ff"></span> weeks</strong> are you sure?
+										 style="color: #1B00FF"></span></strong> at <strong>
+										<span id="company" style="color: #1B00FF"></span>
+								</strong> for <strong style="color: #1B00FF"><span 
+										style="color: #1B00FF"></span> weeks</strong> are you sure?
 								</span>
 							</div>
-							<div class="modal-footer" style="border-top: 0px;">
-								<form action="applyInterns_req" method='post'>
-									<input type="hidden" name='hid' id="hid" value=""> <input
-										type="hidden" name="redirect_page" id="redirect_page" value="">
-									<button type="submit" class="btn btn-primary btn-sm">Confirm</button>
-								</form>
-							</div>
+							<form action="/viewCompAndApply" method="post">
+								<input type="hidden" id="internshipDescription" name="internshipDescription">
+								<input type="hidden" id="companyId" name="companyId">
+								<input type="hidden" id="location" name="location">
+								<input type="hidden" id="duration" name="duration">
+								<input type="hidden" id="stipend" name="stipend">
+								<input type="hidden" id="capacity" name="capacity">
+								<input type="hidden" id="technology" name="technology">
+								<input type="hidden" id="email" name="email">
+								
+								<!-- Other form fields -->
+						
+								
+								<button type="submit" class="btn btn-success" >Submit</button>
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+							</form>
 						</div>
+						
 					</div>
 				</div>
-			</c:if>
+			</div>
+			
+			
+		
 		</div>
 		<%@include file="footer.jsp"%>
 	</div>
@@ -489,7 +572,7 @@ hr{
 	<%@include file="modal_common.jsp"%>
 	<%@include file="modal.jsp"%>
 	<%@include file="modal_adv_schedule.jsp"%>
-	<!-- <%@include file="comp_coll_details_modal.jsp"%> -->
+	<%@include file="comp_coll_details_modal.jsp"%>
 	<!-- js -->
 		<input type="hidden" id="role" value="${role}" />
 		<input type="hidden" id="student_log" value="${log_type}" />
@@ -517,7 +600,13 @@ hr{
 	<script src="/dist/dash/src/plugins/datatables/js/dataTables.responsive.min.js"></script>
 	<script src="/dist/dash/src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
 	<script src="/dist/dash/vendors/scripts/dashboard3.js"></script>
-	<script type="text/javascript">
+
+	
+	<!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> -->
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+		<script type="text/javascript">
+		
 	$( document ).ready(function() {
 		getnextAdvertisement(0,0);
 	});
@@ -529,7 +618,7 @@ hr{
 		var avd_id= adv_id;
 			$.ajax({
 				type:"GET",
-				url : "getInternshipStatus?advertisement_id="+avd_id,
+				url : "getInternshipStatus?id="+avd_id,
 				success : function(response) {
 					
 					if(response==internships_status_ongoing){
@@ -554,7 +643,8 @@ hr{
 					}
 				},
 		 
-		}
+		});
+	}
 	
 	function confirmAdversemnt(tech,cmp,duration,avd_id){
 		$('.modal-body #tech').text(tech);
@@ -565,6 +655,35 @@ hr{
 		$('#confirmAdvertisement').modal('show');
 	}
 	
+	
+
+
+function applyInternship(companyId, description, location, duration, stipend, capacity, technology) {
+    // Update the input fields in the modal with the selected data
+	
+    document.getElementById('internshipDescription').value = description;
+    document.getElementById('companyId').value = companyId;
+    document.getElementById('location').value = location;
+    document.getElementById('duration').value = duration;
+    document.getElementById('stipend').value = stipend;
+    document.getElementById('capacity').value = capacity;
+    document.getElementById('technology').value = technology;
+	var emailId = '${user.id}';
+    document.getElementById('email').value = emailId;
+    // Show the modal
+    $('#confirmAdvertisement').modal('show');
+}
+function confirmApply() {
+    // Submit the form
+    document.getElementById('applyForm').submit();
+
+    // Optional: You can also hide the modal if needed
+    $('#confirmAdvertisement').modal('hide');
+}
 	</script>
+
+
+
 </body>
 </html>
+</c:if>

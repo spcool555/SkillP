@@ -14,6 +14,11 @@ List<CompAdvertisement> getAllCompAdvertisements();
 
 void delete(Long advId);
 
+List<Company> findAll();
+
+List<CompAdvertisement> getAllCities();
+
+Company getCompanyById(String email);
 
 
 

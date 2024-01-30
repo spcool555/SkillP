@@ -38,6 +38,8 @@ public class CompAdvertisement {
 	private String requirement;
 	private String location;
 	
+
+	
 	
 
 }

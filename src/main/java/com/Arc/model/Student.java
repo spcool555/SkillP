@@ -25,7 +25,7 @@ public class Student {
 	private String student_name;
 	private Date creation_date;
 	private Date updation_date;
-	@JsonFormat(shape=JsonFormat.Shape.STRING, timezone="IST")
+
 	private Date d_o_b;
 	private String email_id;
 	private Long contact;

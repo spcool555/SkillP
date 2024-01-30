@@ -101,7 +101,7 @@
 												</ul>
 											</li>
 											<li class="notif-footer" style="height: 20px;text-align: center;"><a id="view_all_notif_footer" style="color: #073ee8;"
-												href="<c:if test="${empty dept_validity}"><c:url value="/viewAllNotifications"/></c:if><c:if test="${dept_validity eq ProjectConstants.reg_user_expiration_rsn_dept_del}">#</c:if>">Show
+												href=<c:if test="${empty dept_validity}"><c:url value="/viewAllNotifications"/></c:if><c:if test="${dept_validity eq ProjectConstants.reg_user_expiration_rsn_dept_del}">#</c:if>">Show
 													all notifications</a></li>
 										</ul>
 									</c:if>
@@ -119,33 +119,31 @@
 						</span>
 						<span class="user-name">
 						
-						<c:if test="${not empty user.email}">${user.email}</c:if>
+						<c:if test="${not empty user.email}">${user.username}</c:if>
 						</span>
 					</a>
 					
 					<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-					<c:if test="${user_data.role eq '0'}">
+					<c:if test="${user.role eq '0' || user.role eq '10'|| user.role eq '8'}">
 						<a class="dropdown-item" href="editStudentProfile"><i class="dw dw-user1"></i> Edit Profile</a>
 					</c:if>
-					<c:set var = "theString" value = "${user_data.user_id }"/>
-			      	<c:if test = "${fn:contains(theString, 'CL')}">
-			        	 <c:if test="${user_data.role eq '1'}">
+				
+			        	 <c:if test="${user.role eq '5'}">
 						<a class="dropdown-item" href="editCollegeProfile"><i class="dw dw-user1"></i> Edit Profile</a>
 						<a class="dropdown-item" href="editUserProfile"><i class="dw dw-user1"></i> Edit III Profile</a>
-					</c:if>
+					
 			      	</c:if>
-			      	<c:set var = "theString" value = "${user_data.user_id }"/>
-			      	<c:if test = "${fn:contains(theString, 'CP')}">
-			        	 <c:if test="${user_data.role eq '1'}">
+			     
+			        	 <c:if test="${user.role eq '1'}">
 						<a class="dropdown-item" href="editCompProfile"><i class="dw dw-user1"></i> Edit Profile</a>
 						<a class="dropdown-item" href="editUserProfile"><i class="dw dw-user1"></i> Edit HR Profile</a>
-					</c:if>
+					
 			      	</c:if>
-					<c:if test="${user_data.role eq '1'}">
-						<c:set var="theString" value="${user_data.user_id }" />
-						<c:if test="${fn:contains(theString, 'US')}">
+					<c:if test="${user.role eq '7' || user.role eq '6'|| user.role eq '4' || user.role eq '3' || user.role eq '2'}">
+						
+						
 							<a class="dropdown-item" href="editUserProfile"><i class="dw dw-user1"></i> Edit Profile</a>
-						</c:if>
+						
 					</c:if>
 					<c:if test="${user_data.role eq '2'}">
 						<a class="dropdown-item" href="editUserProfile"><i class="dw dw-user1"></i> Edit Profile</a>
@@ -154,7 +152,7 @@
 						<a class="dropdown-item" href="editUserProfile"><i class="dw dw-user1"></i> Edit Profile</a>
 					</c:if>
 						<a class="dropdown-item" href="change_password"><i class="dw dw-password"></i> Change Password</a>
-						<a class="dropdown-item" href="logout"><i class="dw dw-logout"></i> Log Out</a>
+						<a class="dropdown-item" href="/logout"><i class="dw dw-logout"></i> Log Out</a>
 					</div>
 				</div>
 			</div>

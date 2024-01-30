@@ -1,18 +1,35 @@
 package com.Arc.controller.intern;
 
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.Arc.model.Company;
+import com.Arc.model.Internships;
+import com.Arc.service.ComponyService;
+import com.Arc.service.InternshipService;
+
+
+
 @Controller
 public class Student_reqController {
 
+	@Autowired
+	private ComponyService componyService;
 
+	@Autowired
+	private InternshipService internshipService;
+	
 	/* Internship Status for student login hence input advertisement id*/
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/getInternshipStatus", method = RequestMethod.GET)
@@ -78,22 +95,23 @@ public class Student_reqController {
 	}
 */
 	//Called when student applyies to companies from industry list
-	@SuppressWarnings("unchecked")
+	
 	@RequestMapping("/viewCompAndApply")
 	public String viewandapply(Model model) {
 		
+	List<Company>	compony = componyService.findAll();
+	model.addAttribute("company",compony);
 			return "viewCompanyAndApply";
 		
 
 	}
 
-	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/viewCompAndApply", method = RequestMethod.POST)
-	public String viewAndapply() {
-		
-		return "redirect:viewCompAndApply";
-	}
-
+		 @PostMapping("/viewCompAndApply")
+	    public String viewAndApply(@ModelAttribute Internships internship) {
+	   
+	        internshipService.saveInternship(internship);
+	        return "redirect:/stud_home";
+	    }
 	// student approve
 	@RequestMapping(value = "studentRequestApprove", method = RequestMethod.GET)
 	public @ResponseBody String studentapproval(@RequestParam("request_id")String request_id) {

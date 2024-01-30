@@ -2,6 +2,8 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@include file="user_session.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -89,9 +91,11 @@
 			<div class="loading-text">Loading...</div>
 		</div>
 	</div>
-
+	
+	
 	<%@include file="header.jsp"%>
 
+	
 	<div class="right-sidebar">
 		<div class="sidebar-title">
 			<h3 class="weight-600 font-16 text-blue">
@@ -175,13 +179,15 @@
 			</div>
 		</div>
 	</div>
+
 	<div class="mobile-menu-overlay"></div>
 
 	<div class="main-container">
 		<div class="xs-pd-20-10 pd-ltr-20">
-
+			
 			<div class="title pb-20">
 				<h5 class="h4 mb-0 text-center" style="background: #0f2c7eeb;color: white;border-radius: 4px;">Internship's Status</h5>
+			
 			</div>
 			<div class="pd-20 card-boxcard card-box text-center">
 			<div class="card-header">
@@ -202,7 +208,7 @@
 								<div class="tab-content">
 									<div class="tab-pane fade show active" id="pendingTab" role="tabpanel" style="text-align: initial;">
 										<div class="pd-20">
-										<c:if test="${not empty pendingInternships}">
+										<c:if test="${not empty internship}">
 											<table class="data-table table hover nowrap">
 							<thead>
 								<tr>
@@ -213,12 +219,16 @@
 										<th>Cancel Internship</th>
 								</tr>
 							</thead>
+							
 							<tbody id="tablist">
-										<c:forEach items="${pendingInternships}" var="internship">
+								
+										<c:forEach items="${internship}" var="intern">
 											<tr>
-												<td><span>${internship[5]}</span></td>
-												<td><span>${internship[4]}</span></td>
-												<td><span>${internship[1]}</span></td>
+												<td><span>${intern.company_id}</span></td>
+												<td><span>${intern.technology}</span></td>
+												<td><span>${intern.duration}</span></td>
+												<td><span>${intern.date_started}</span></td>
+												
 												<td><span><fmt:formatDate pattern="${ProjectConstants.date_format}"
 															value="${internship[2]}" /></span></td>
 												<td><span
@@ -229,15 +239,16 @@
 										</c:forEach>
 									</tbody>
 						</table></c:if>
-						<c:if test="${empty pendingInternships}">
+						<c:if test="${empty internship}">
 								<label>No Pending Internships</label>
 							</c:if>
 										</div>
 									</div>
 									<div class="tab-pane fade" id="ongoingTab" role="tabpanel" style="text-align: initial;">
 										<div class="pd-20">
-											<c:if test="${not empty currentInternships}">
+											<c:if test="${not empty internship2}">
 							<table class="data-table table hover nowrap">
+							
 								<thead>
 									<tr>
 										<th>Company Name</th>
@@ -248,31 +259,29 @@
 									</tr>
 								</thead>
 								<tbody id="tablist">
-									<c:forEach var="comp" items="${currentInternships}">
+									<c:forEach var="comp" items="${internship2}">
 										<tr>
-											<td>${comp[5]}</td>
-											<td>${comp[4]}</td>
-											<td>${comp[1]}</td>
-											<td><fmt:formatDate pattern="${ProjectConstants.date_format}"
-															value="${comp[2]}" /></td>
-											<td>
-														<span title="Feedback" class="pointer greenHov actIcon"
-														onclick="viewFeedback('${comp[3]}');">
-															<i class="fa fa-commenting-o"></i></span>
-													</td>
+											<td><span>${comp.company_id}</span></td>
+											<td><span>${comp.technology}</span></td>
+											<td><span>${comp.duration}</span></td>
+											<td><span>${comp.date_started}</span></td>
+											<td>good</td>
+												
+													
 										</tr>
 									</c:forEach>
 								</tbody>
 							</table>
 							</c:if>
-							<c:if test="${empty currentInternships}">
+							<c:if test="${empty internship2}">
 							<label>No Current Internships</label>
 							</c:if>
 										</div>
 									</div>
 									<div class="tab-pane fade" id="completedTab" role="tabpanel" style="text-align: initial;">
 										<div class="pd-20">
-											<c:if test="${not empty pastInternships}">
+											
+											<c:if test="${not empty internship3}">
 							<table class="data-table table hover nowrap">
 								<thead>
 									<tr>
@@ -284,33 +293,28 @@
 										<th>Feedback</th>
 									</tr>
 								</thead>
+								
 								<tbody id="tablist">
-									<c:forEach var="comp" items="${pastInternships}">
+									<c:forEach var="comp" items="${internship3}">
 										<tr>
-											<td>${comp[6]}</td>
-											<td>${comp[5]}</td>
-											<td>${comp[1]}</td>
-											<td><fmt:formatDate pattern="${ProjectConstants.date_format}"
-															value="${comp[2]}" /></td>
-											<td><fmt:formatDate pattern="${ProjectConstants.date_format}"
-															value="${comp[3]}" /></td>
-											<td><span title="Give feedback to company." class="pointer greenHov actIcon"
-														onclick="showFeed('${comp[4]}','${comp[7]}','ST');"><i
-															class="fa fa-commenting-o"></i></span>&nbsp;&nbsp;|&nbsp;&nbsp;<span title="View Feedback From Company" class="pointer greenHov actIcon"
-														onclick="viewFeedback('${comp[4]}');"><i
-															class="fa fa-street-view fa-spin"></i></span></td>
+											<td><span>${comp.company_id}</span></td>
+											<td><span>${comp.technology}</span></td>
+											<td><span>${comp.duration}</span></td>
+											<td><span>${comp.date_started}</span></td>
+											<td><span>${comp.date_started}</span></td>
+											<td>good</td>
 										</tr>
 									</c:forEach>
 								</tbody>
 							</table></c:if>
-							<c:if test="${empty pastInternships}">
+							<c:if test="${empty internship3}">
 							<label>No Past Internships</label>
 							</c:if>
 										</div>
 									</div>
 									<div class="tab-pane fade" id="canceledTab" role="tabpanel" style="text-align: initial;">
 										<div class="pd-20">
-											<c:if test="${not empty canceledInternships}">
+											<c:if test="${not empty internship4}">
 								<table class="data-table table hover nowrap">
 									<tr>
 										<th>Company Name</th>
@@ -322,22 +326,20 @@
 									</tr>
 
 									<tbody id="tablist">
-										<c:forEach items="${canceledInternships}" var="internship">
+										<c:forEach items="${internship4}" var="internship">
 											<tr>
-												<td><span>${internship[5]}</span></td>
-												<td><span>${internship[4]}</span></td>
-												<td><span>${internship[1]}</span></td>
-												<td><span><fmt:formatDate pattern="${ProjectConstants.date_format}"
-															value="${internship[2]}" /></span></td>
-												<td><span><fmt:formatDate pattern="${ProjectConstants.date_format}"
-															value="${internship[3]}" /></span></td>
-												<td><span>${internship[7]}</span></td>
+														<td><span>${internship.company_id}</span></td>
+														<td><span>${internship.technology}</span></td>
+														<td><span>${internship.duration}</span></td>
+														<td><span>${internship.date_started}</span></td>
+														<td><span>${internship.date_started}</span></td>
+														<td>no intrested</td>
 											</tr>
 										</c:forEach>
 									</tbody>
 								</table>
 							</c:if>
-							<c:if test="${empty canceledInternships}">
+							<c:if test="${empty internship4}">
 								<label>No Canceled Internships</label>
 							</c:if>
 										</div>
@@ -349,6 +351,11 @@
 			<%@include file="footer.jsp"%>
 		</div>
 	</div>
+	
+
+
+
+
 	<!-- js -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.0/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>

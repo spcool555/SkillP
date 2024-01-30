@@ -9,25 +9,25 @@
 				<label>Select Category :- </label>
 				<select id="degreeSelector" class="form-control degreeSelector" style="display:inline;width:150px" >
 					<option disabled="disabled" selected="selected">--Select Category--</option>
-					<option value="${ProjectConstants.student_education_ssc}">SSC</option>
-					<option value="${ProjectConstants.student_education_hsc}">HSC</option>
+					<option value="SSC">SSC</option>
+					<option value="HSC">HSC</option>
 					<c:if test="${category!=ProjectConstants.student_education_diploma}">
 						<option value="${ProjectConstants.student_education_diploma}">DIPLOMA</option>
 					</c:if>
 					<c:if test="${category==ProjectConstants.student_education_pg||category==ProjectConstants.student_education_phd
 						||category=='none'||category==null}">
-						<option value="${ProjectConstants.student_education_ug}">UG</option>
+						<option value="UG">UG</option>
 					</c:if>
 					<c:if test="${category==ProjectConstants.student_education_phd||category=='none'||category==null}">
-						<option value="${ProjectConstants.student_education_pg}">PG</option>
+						<option value="PG">PG</option>
 					</c:if>
 					<c:if test="${category=='none'||category==null}">
-						<option value="${ProjectConstants.student_education_phd}">PHD</option>
+						<option value="PHD">PHD</option>
 					</c:if>
 				</select>
 			</div>
 			<div id="edu_div" style="display:none">
-			<form id="edu_form">
+			<form id="edu_form" action="saveStudentPast" method="post">
 				<input type="hidden" value="0" name="stud_past_id" id="edu_stud_past_id"/>
 				<input type="hidden" value="${user_data.user_id}" name="student_id"/>
 				<input type="hidden" name="category" id="edu_category" />
@@ -79,21 +79,24 @@
 				<div class="form-group" style="text-align: center;"><input type="submit" class="btn btn-primary" value="Save"/></div>
 			</form>
 			</div>
-			<div id="edu_div2" style="display:none">
+			<div id="edu_div2" style="display:none" action="saveStudentPast" method="post">
 			<form id="edu_form1">
 				<input type="hidden" value="0" name="stud_past_id" id="edu_stud_past_id1"/>
-				<input type="hidden" value="${user_data.user_id}" name="student_id"/>
+				<input type="hidden" value="${user.id}" name="student_id"/>
 				<input type="hidden" name="category" id="edu_category1" />
 				<div class="row" style="margin-right: 0px;margin-left: 0px;">
 					<div class="col-md-6">
 						<div class="form-group">
-							<label id="edu_organization_label1">School Name</label>
+							<label id="edu_organization_label1">Schools	 Name</label>
 							<div id="existing_organization1">
 								<select class="form-control" id="existing_colleges1">
 									<option selected value="" disabled="disabled">--Select a Institute--</option>
 									<c:forEach items="${colleges}" var="college">
 										<option value="${college.college_id}">${college.college_name}</option>
+										
 									</c:forEach>
+									<option value="vmv">vmv</option>
+										<option value="jjp">jjp</option>
 									<option value="other">Other</option>
 								</select>
 							</div>
@@ -119,6 +122,7 @@
 							<label>Stream/Degree</label>
 							<select class="form-control mySelect" name="department" id="edu_departments1">
 								<option selected value="" disabled="disabled">--Select a Stream/Degree--</option>
+							
 							</select>
 						</div>
 					</div>

@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Date;
 import java.util.Optional;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +39,10 @@ public class MainController {
 	public String getLogin() {
 	return "login_check";
 	}
-	
+	@RequestMapping(value = "/login")
+	public String getLogin2() {
+	return "login_check";
+	}
 	
 	
 	
@@ -61,18 +65,18 @@ public class MainController {
 	               
 	                
 	                // Check the role of the user
-	                if (userRole == 0 && user.isVerified()) {
+	                if (userRole == 0 ||userRole == 10 && user.isVerified()) {
 	                    // Redirect to stud_home if the role is 0
 	                	  session.setAttribute("user", user);
 	                    return "redirect:/stud_home";
 	                }
-	                else  if (userRole == 1 && user.isVerified()) {
+	                else  if (userRole == 5 ||userRole == 8  ||userRole == 7  ||userRole == 6 && user.isVerified()) {
 	                    // Redirect to college_dashboard if the role is 1
 	                	session.setAttribute("user", user);
 	                    return "redirect:/college_dashboard";
 	                }   
-	                else  if (userRole == 2 && user.isVerified()) {
-	                    // Redirect to company_dashboard if the role is 2
+	                else  if (userRole == 4 || userRole == 3 || userRole == 2 || userRole == 1  && user.isVerified()) {
+	                    
 	                	session.setAttribute("user", user);
 	                    return "redirect:/company_dashboard";
 	                }
@@ -97,9 +101,11 @@ public class MainController {
 
 
 	@RequestMapping(value = "/logout")
-	public String logout_user() {
-		
-		return "login";
+	public String logout_user(HttpSession session ,  Model model) {
+		session.removeAttribute("user");
+		session.invalidate();
+		model.addAttribute("message", "Oops! your session has expired. Please login again.");
+		return "login_check";
 	}
 	
 	@RequestMapping(value = "/")

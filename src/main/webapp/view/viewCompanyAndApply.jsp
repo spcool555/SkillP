@@ -1,4 +1,4 @@
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -93,7 +93,7 @@
 			<div class="loading-text">Loading...</div>
 		</div>
 	</div>
-
+	<c:if test="${sessionScope.user ne null}">
 	<%@include file="header.jsp"%>
 
 	<div class="right-sidebar">
@@ -198,25 +198,20 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="comp" items="${companies}">
+							<c:forEach var="comp" items="${company}">
 								<tr>
 									<td style="color: #1b00ff" title="Click Here To View Company Details"><span class="compLink"
-										onclick="getCompanyDetails('${comp.key.company_id}');">${comp.key.company_name}</span></td>
-									<td>${comp.key.address.city}</td>
-									<c:if test="${comp.value=='s'}">
-										<td><span class="action-label">Applied by you</span></td>
-									</c:if>
-									<c:if test="${comp.value=='c'}">
-										<td><span class="action-label">Applied by
-												Institute</span></td>
-									</c:if>
-									<c:if test="${comp.value=='not_applied'}">
+										onclick="getCompanyDetails('CP0000000001');">${comp.company_name}</span></td>
+									<td>${comp.city}</td>
+									
+									
+									
 										<td class="text-center" style="width: 15%">
 											<button type="button" class="btn btn-success btn-sm"
-												onclick="applyToComp('${comp.key.company_id}');"
+												onclick="applyToComp('CP0000000001');"
 												style="padding: 0px 10px 3px 10px;">Apply</button>
 										</td>
-									</c:if>
+									
 								</tr>
 								<div class="modal fade show" id="details_modal" tabindex="-1"
 									role="dialog" aria-labelledby="myLargeModalLabel"
@@ -279,9 +274,9 @@
 												<div class="login-title">
 													<h2 class="text-center text-primary">Apply To Industry</h2>
 												</div>
-												<c:url var="addAction" value="/viewCompAndApply"></c:url>
-						<form action="${addAction}" method="post">
-						<input type="hidden" id="company_id" name="company_id">
+												
+													<form action="/skillpilot_test/viewCompAndApply" method="post">
+													<input type="hidden" id="company_id" name="company_id">
 													<div class="input-group custom">
 														<textarea class="form-control form-control-lg"
 															placeholder="Enter Description Here" style="height: 50%"
@@ -292,9 +287,10 @@
 															style="width: 100%; height: 38px;" required="required">
 															<option selected value="" disabled="disabled">--
 																Select Skill --</option>
-															<c:forEach items="${techList}" var="tech">
-																<option value="${tech}">${tech}</option>
-															</c:forEach>
+															
+																											
+																<option value="HTML">HTML</option>
+															
 														</select>
 													</div>
 													<div class="input-group custom">
@@ -321,6 +317,8 @@
 			<%@include file="footer.jsp"%>
 		</div>
 	</div>
+</c:if>
+
 	<!-- js -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.0/jquery.min.js"></script>
 	<script src="/dist/js/myjs/common.js"></script>

@@ -2,6 +2,8 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@include file="user_session.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -131,7 +133,7 @@
 				<i class="ion-close-round"></i>
 			</div>
 		</div>
-		<c:if test="${user_data.role eq '1'}">
+		<c:if test="${user.role eq '1'}">
 		<div class="menu-block customscroll">
 			<div class="sidebar-menu">
 				<ul id="accordion-menu">
@@ -235,6 +237,7 @@
 				<h5 class="h4 mb-0"><span style="background: #13aef5;color: white;border-radius: 4px;padding: 4px 16px 4px 16px;">Internships</span></h5>
 			</div>
 			<div class="pd-20 card-box">
+			
 				<div class="tab">
 					<ul class="nav nav-tabs customtab" role="tablist">
 						<li class="nav-item"><a class="nav-link active"
@@ -250,11 +253,12 @@
 							href="#canceledTab" role="tab" aria-selected="false">Canceled
 								Internships</a></li>
 					</ul>
+				
 					<div class="tab-content">
 						<div class="tab-pane fade show active" id="pendingTab"
 							role="tabpanel">
 							<div class="pd-20">
-								<c:if test="${not empty pendingInternships}">
+								<c:if test="${not empty internship}">
 									<table
 										class="data-table table hover table-responsive">
 										<thead class="thead-light">
@@ -274,7 +278,7 @@
 												</c:if>
 											</tr>
 										</thead>
-
+${internship}
 										<tbody id="tablist">
 											<c:forEach items="${pendingInternships}" var="internship">
 												<tr>

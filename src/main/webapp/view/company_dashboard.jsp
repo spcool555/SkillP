@@ -1,4 +1,6 @@
-
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+		<%@include file="user_session.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +11,7 @@
 <!-- Site favicon -->
 <link rel="apple-touch-icon" sizes="180x180"
 	href="/dist/dash/vendors/images/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="16x16" href="<c:url value="/dist/dash/vendors/images/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/dist/dash/vendors/images/favicon.ico">
 
 <!-- Mobile Specific Metas -->
 <meta name="viewport"
@@ -70,7 +72,7 @@
 	<div class="pre-loader">
 		<div class="pre-loader-box">
 			<div class="loader-logo">
-				<img src="<c:url value="/dist/dash/vendors/images/deskapp-logos.svg"
+				<img src="/dist/dash/vendors/images/deskapp-logos.svg"
 					alt="">
 			</div>
 			<div class='loader-progress' id="progress_div">
@@ -123,14 +125,14 @@
 	<div class="left-side-bar">
 		<div class="brand-logo">
 			<a href="javascript:;"> <img
-				src="<c:url value='/dist/dash/vendors/images/deskapp-logo.svg' alt="" class="dark-logo"> 
-				<img src="<c:url value='/dist/dash/vendors/images/skillpilot_white.svg' alt="" class="light-logo">
+				src="/dist/dash/vendors/images/deskapp-logo.svg" alt="" class="dark-logo"> 
+				<img src="/dist/dash/vendors/images/skillpilot_white.svg" alt="" class="light-logo">
 			</a>
 			<div class="close-sidebar" data-toggle="left-sidebar-close">
 				<i class="ion-close-round"></i>
 			</div>
 		</div>
-		<c:if test="${user_data.role eq '1'}">
+		<c:if test="${user.role eq '2' || user.role eq '1'}">
 		<div class="menu-block customscroll">
 			<div class="sidebar-menu">
 				<ul id="accordion-menu">
@@ -170,7 +172,7 @@
 				</ul>
 			</div>
 		</div></c:if>
-		<c:if test="${user_data.role eq '3'}">
+		<c:if test="${user.role eq '4'}">
 			<div class="menu-block customscroll">
 			<div class="sidebar-menu">
 				<ul id="accordion-menu">
@@ -197,7 +199,7 @@
 			</div>
 		</div>
 		</c:if>
-		<c:if test="${user_data.role eq '2'}">
+		<c:if test="${user.role eq '3'}">
 			<div class="menu-block customscroll">
 			<div class="sidebar-menu">
 				<ul id="accordion-menu">
@@ -258,7 +260,7 @@
 						<div class="d-flex justify-content-between align-items-end">
 							<div class="text-white">
 								<div class="font-14">Pending Internship's</div>
-								<div class="font-24 weight-500">${pending_internship_count}</div>
+								<div class="font-24 weight-500">${pendingCount}</div>
 							</div>
 						</div>
 					</div>
@@ -275,7 +277,7 @@
 						<div class="d-flex justify-content-between align-items-end">
 							<div class="text-white">
 								<div class="font-14">Ongoing Internship's</div>
-								<div class="font-24 weight-500">${ongoing_internship_count}</div>
+								<div class="font-24 weight-500">${ongoingCount}</div>
 							</div>
 							<div class="resize-triggers"><div class="expand-trigger"><div style="width: 151px; height: 71px;"></div></div><div class="contract-trigger"></div></div></div>
 						</div>
@@ -292,7 +294,7 @@
 						<div class="d-flex justify-content-between align-items-end">
 							<div class="text-white">
 								<div class="font-14">Completed Internship's</div>
-								<div class="font-24 weight-500">${completed_internship_count }</div>
+								<div class="font-24 weight-500">${completedCount }</div>
 							</div>
 							<div class="resize-triggers"><div class="expand-trigger"><div style="width: 151px; height: 71px;"></div></div><div class="contract-trigger"></div></div></div>
 						</div>
@@ -321,7 +323,7 @@
 		</div>
 	<!-- js -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.0/jquery.min.js"></script>
-	<script src="/dist/js/myjs/common.js"</script>
+	<script src="/dist/js/myjs/common.js"></script>
 	<script src="/dist/js/myjs/projectConstants.js"></script>
 	<script src="/dist/dash/vendors/scripts/core.js"></script>
 	<script src="/dist/dash/vendors/scripts/script.min.js"></script>

@@ -1,6 +1,9 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@include file="user_session.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -70,8 +73,7 @@
     }
 </style>
 <c:if test="${user_data.role eq '1'}">
-	<c:set var="theString" value="${user_data.user_id }" />
-	<c:if test="${fn:contains(theString, 'CP')}">
+
 		<style type="text/css">
 	.sidebar-menu .dropdown-toggle {
 		padding: 15px 12px 15px 54px!important;
@@ -79,7 +81,7 @@
 	}
 </style>
 	</c:if>
-</c:if>
+
 </head>
 <body>
 	<div class="pre-loader">
@@ -252,9 +254,8 @@
 			</div>
 		</div></c:if>
 		</c:if>
-		<c:if test="${user_data.role eq '1'}">
-			<c:set var="theString" value="${user_data.user_id }" />
-			<c:if test="${fn:contains(theString, 'CL')}">
+		<c:if test="${user.role eq '2'}">
+		
 
 				<div class="menu-block customscroll">
 					<div class="sidebar-menu">
@@ -307,7 +308,7 @@
 					</div>
 				</div>
 			</c:if>
-		</c:if>
+		
 		<c:if test="${user_data.role eq '1'}">
 			<c:set var="theString" value="${user_data.user_id }" />
 			<c:if test="${fn:contains(theString, 'US')}">
@@ -457,15 +458,15 @@
 									</div>
 								</div>
 							</div>
-							<h5 class="text-center h5 mb-0">${user_data.username}</h5>
+							<h5 class="text-center h5 mb-0">${user.username}</h5>
 							<p class="text-center text-muted font-14"></p>
 							<div class="profile-info">
 								<h5 class="mb-20 h5 text-blue">Contact Information</h5>
 								<ul>
-									<li><span>Email Address:</span>${user_data.email_id}</li>
-									<li><span>Phone Number:</span> ${user_data.contact_no}</li>
-									<li><span>Gender :</span>${user_data.gender}</li>
-									<li><span>Account Verified :</span> ${user_data.acc_verified}
+									<li><span>Email Address:</span>${user.email}</li>
+									<li><span>Phone Number:</span> ${user.contact_no}</li>
+									<li><span>Gender :</span>${user.gender}</li>
+									<li><span>Account Verified :</span> ${user.verified}
 									</li>
 								</ul>
 							</div>
@@ -486,20 +487,19 @@
 											role="tabpanel">
 											<div class="pd-20">
 												<c:url var="addAction" value="/editUserProfile"></c:url>
-												<form:form modelAttribute="user" action="${addAction}" method="post" enctype="multipart/form-data">
+												<form modelAttribute="user" action="${addAction}" method="post" enctype="multipart/form-data">
 													<ul class="profile-edit-list row">
 														<li class="weight-500 col-md-6">
 															<h4 class="text-blue h5 mb-20">Edit Your Personal
 																Setting</h4>
 															<div class="form-group">
-																<label>Full Name</label>
-																<form:input type="text" path="username"
-																	class="form-control form-control-lg" required="true"
-																	/>
-															</div>
+  			  <label>Full Name</label>
+  							  <input type="text" name="username" value="${user.username}" class="form-control form-control-lg" required="true" />
+</div>
+
 															<div class="form-group">
 																<label>Email</label>
-																<form:input path="email_id" id="mail_id" onchange="checkExists(this)"
+																<input name="email_id"  value="${user.email}" id="mail_id" onchange="checkExists(this)"
 											pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
 																	class="form-control form-control-lg" readonly="true" />
 															</div>
@@ -508,7 +508,7 @@
 																<div class="d-flex">
 																	<div class="custom-control custom-radio mb-5 mr-20">
 																		<c:if
-																			test="${user_data.gender eq 'M'}">
+																			test="${user.gender eq 'Male'}">
 																			<input type="radio" id="customRadio5"
 																				name="gender" checked="checked" class="custom-control-input"
 																				value="M">
@@ -518,7 +518,7 @@
 																	</div>
 																	<div class="custom-control custom-radio mb-5">
 																		<c:if
-																			test="${user_data.gender eq 'F'}">
+																			test="${user.gender eq 'Female'}">
 																			<input type="radio" id="customRadio5"
 																				name="gender" checked="checked" class="custom-control-input"
 																				value="F">
@@ -534,11 +534,11 @@
 																Setting</h4>
 															<div class="form-group">
 																<label>Contact Number</label>
-																<form:input type="text" path="contact_no" maxlength="10"
+																<input type="text" name="contact_no" value="${user.contact_no}", maxlength="10"
 																	class="form-control form-control-lg" required="true"
 																	/>
 															</div>
-															<c:if test="${user_data.role eq '1' or user_data.role eq '0'}">
+															<c:if test="${user.role eq '2' or user_data.role eq '0'}">
 															<div class="form-group">
 																<label>Upload Hr Signature</label>
 																<div class="custom-file">
@@ -546,9 +546,9 @@
 																		class="custom-file-label" style="height: 40px;">Choose file</label>
 																</div>
 															</div></c:if>
-															<form:hidden path="role" /> <form:hidden
-																path="acc_verified" /> <form:hidden
-																path="email_verified" /> <form:hidden
+															<hidden path="role" /> <hidden
+																path="acc_verified" /> <hidden
+																path="email_verified" /> <hidden
 																path="mob_verified" />
 															<div class="form-group mb-0 text-center">
 																<input type="submit" id="sbtn" class="btn btn-primary btn-sm" style="margin-top: 20px;"
@@ -556,7 +556,7 @@
 															</div>
 														</li>
 													</ul>
-												</form:form>
+												</form>
 											</div>
 										</div>
 									</div>

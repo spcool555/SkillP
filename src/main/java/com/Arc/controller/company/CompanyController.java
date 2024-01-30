@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +25,8 @@ import com.Arc.service.ComponyService;
 import com.Arc.service.UserService;
 import com.Arc.utility.ProjectConstants;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 //public class CompanyController extends BeanCopyUtil{
 public class CompanyController{
@@ -32,24 +35,107 @@ public class CompanyController{
 	
 	@Autowired
 	private ComponyService compService;
-	
+	@Autowired
+	private HttpSession session;
 	
 	@RequestMapping("/comp_reg")
 	public String regComp() {
 		
 		return "company_registration";
 	}
+// old sk working
+//	@RequestMapping(value="/add_company",method=RequestMethod.POST)
+//	public String addComp(Company compony) {
+//		User user = new User();
+//		user.setEmail(compony.getEmail_id());
+//		user.setRole(ProjectConstants.iii_role2);
+//		userService.saveUser(user);
+//		
+//		compService.saveCompony(compony);
+//			return "redirect:comp_reg";
+//	}
+	
+	
+	
+	@PostMapping("/add_company")
+    public String addComp(
+            Company company,
+             String username,
+           String gender,
+           String email,
+             Long contact_no
+    ) {
+       //addcompanyUser
+        User companyUser = new User();
+        companyUser.setUsername(company.getCompany_name());
+        companyUser.setEmail(company.getEmail_id());
+        companyUser.setContact_no(company.getContact_1());
+        companyUser.setRole(ProjectConstants.company);
+        userService.saveUser(companyUser);
+      //add hr
+        User hrUser = new User();
+        hrUser.setUsername(username);
+        hrUser.setGender(gender);
+        hrUser.setEmail(email);
+        hrUser.setContact_no(contact_no);
+        hrUser.setRole(ProjectConstants.hr);
+        userService.saveUser(hrUser);
+        company.setCompany_id(companyUser.getId());
+        // Save the company details
+        compService.saveCompony(company);
+        return "redirect:/comp_reg";
+    }
 
-	@RequestMapping(value="/add_company",method=RequestMethod.POST)
-	public String addComp(Company compony) {
-		User user = new User();
-		user.setEmail(compony.getEmail_id());
-		user.setRole(ProjectConstants.iii_role2);
-		userService.saveUser(user);
+
+	@RequestMapping("/editCompProfile")
+	public String changeProfile(Model model){
+		User user1 = (User) session.getAttribute("user");
 		
-		compService.saveCompony(compony);
-			return "redirect:comp_reg";
+		if(user1==null) {
+			return "redirect:/editCompProfile";
+		}
+		User user = userService.getUserById(user1.getId());
+		model.addAttribute("user", user);
+		String email = user.getEmail();
+		
+		Company company = compService.getCompanyById(email);
+		model.addAttribute("company", company);
+	
+		return "changeCompanyProfile";
 	}
+	
+	@RequestMapping(value="/editCompProfile",method=RequestMethod.POST)
+	public String updateProfile(@ModelAttribute Company company, String about, Long contact_1, Long contact_2, String web_url, String city) {
+		User user1 = (User) session.getAttribute("user");
+		
+		if(user1==null) {
+			return "redirect:/editCompProfile";
+		}
+		User user = userService.getUserById(user1.getId());
+		
+		String email = user.getEmail();
+		
+		Company existCompany = compService.getCompanyById(email);
+		if(existCompany==null) {
+			return "redirect:/editCompProfile";
+		}
+		
+		existCompany.setAbout(about);
+		existCompany.setContact_1(contact_1);
+		existCompany.setContact_2(contact_2);
+		existCompany.setWeb_url(web_url);
+		existCompany.setCity(city);
+		
+		compService.saveCompony(existCompany);
+		return "redirect:company_dashboard";
+	}
+
+	
+	
+	
+	
+	
+	
    
 	//**************Interns Request***************
 	
@@ -71,17 +157,9 @@ public class CompanyController{
 		return "company";
 	}
 	
-	@RequestMapping("/editCompProfile")
-	public String changeProfile(){
-		
-		return "changeCompanyProfile";
-	}
 	
-	@RequestMapping(value="/editCompProfile",method=RequestMethod.POST)
-	public String updateProfile() {
-		
-		return "redirect:company_dashboard";
-	}
+	
+	
 
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {

@@ -1,4 +1,4 @@
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 
@@ -182,11 +182,19 @@
 										<input type="checkbox" class="custom-control-input" id="customCheck1">
 										<label class="custom-control-label" for="customCheck1">Remember</label>
 									</div>
+									
 								</div>
 								<div class="col-6">
 									<div class="forgot-password"><a href="forgot_password">Forgot Password</a></div>
 								</div>
 							</div>
+							<c:if test="${not empty message}">
+							<div class="alert alert-success fade in" style="margin-left: 18px;">
+										
+										
+										${message}
+									</div>
+								</c:if>
 							<div class="row pb-20">
 								
 							

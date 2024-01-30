@@ -47,7 +47,24 @@ public class ComponyServiceImpl implements ComponyService {
 	}
 
 
+	@Override
+	public List<Company> findAll() {
+		// TODO Auto-generated method stub
+		return compRepository.findAll();
+	}
 
+
+	@Override
+	public List<CompAdvertisement> getAllCities() {
+		return advertismentRepo.getAllCities();
+	}
+
+
+	@Override
+	public Company getCompanyById(String email) {
+		// TODO Auto-generated method stub
+		return compRepository.getCompanyDetailsById(email);
+	}
 	
 
 

@@ -1,6 +1,6 @@
-
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+		<%@include file="user_session.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -237,46 +237,45 @@ padding: 5px 2px 7px 18px;
 										<div class="tab-pane fade show active" id="timeline"
 											role="tabpanel">
 											<div class="pd-20">
-												<c:url var="addAction" value="/editStudentProfile"></c:url>
-												<form:form action="${addAction}" modelAttribute="student" enctype="multipart/form-data"
+												
+												<form action="${addAction}" modelAttribute="student" enctype="multipart/form-data"
 													class="form-horizontal"
 													method="post">
-													<form:hidden path="student_id" />
+													<hidden name="student_id" />
+												
 													<ul class="profile-edit-list row">
 														<li class="weight-500 col-md-6">
 															<h4 class="text-blue h5 mb-20">Edit Your Personal
 																Setting</h4>
 															<div class="form-group">
 																<label>Full Name</label>
-																<form:input type="text" path="student_name"
+																<input type="text" name="student_name" value="${student.student_name}"
 																	class="form-control form-control-lg" required="true"
-																	disabled="disabled" />
+																	/>
 															</div>
-															<div class="form-group">
+															<!-- <div class="form-group">
 																<label>Date of birth</label>
-																<form:input type="text" path="d_o_b"
-																	class="form-control form-control-lg" readonly="true" />
-															</div>
+																<input type="date" name="d_o_b"
+																	class="form-control form-control-lg" value="" readonly="true" />
+															</div> -->
 															<div class="form-group" style="padding-bottom: 18px;">
 																<label>Gender</label>
 																<div class="d-flex">
 																	<div class="custom-control custom-radio mb-5 mr-20">
-																		<c:if
-																			test="${user_data.gender eq ProjectConstants.reg_user_gender_male}">
+																		
 																			<input type="radio" id="customRadio4"
 																				name="gender" class="custom-control-input"
-																				checked="checked" value=${ProjectConstants.reg_user_gender_male }>
-																		</c:if>
+																				checked="checked" value="male">
+																		
 																		<label class="custom-control-label weight-400"
 																			for="customRadio4">Male</label>
 																	</div>
 																	<div class="custom-control custom-radio mb-5">
-																		<c:if
-																			test="${user_data.gender eq ProjectConstants.reg_user_gender_female}">
+																		
 																			<input type="radio" id="customRadio5"
 																				name="gender" class="custom-control-input"
-																				checked="checked" value=${ProjectConstants.reg_user_gender_female }>
-																		</c:if>
+																				checked="checked" value="female">
+																		
 																		<label class="custom-control-label weight-400"
 																			for="customRadio5">Female</label>
 																	</div>
@@ -285,23 +284,23 @@ padding: 5px 2px 7px 18px;
 
 															<div class="form-group">
 																<label>Email</label>
-																<form:input path="email_id"
-																	class="form-control form-control-lg" readonly="true" />
+																<input name="email_id"
+																	class="form-control form-control-lg" readonly="true" value="${student.email_id}"/>
 															</div>
 															<div class="form-group">
 																<label>Contact Number</label>
-																<form:input path="contact" maxlength="10"
-																	class="form-control form-control-lg" type="text" />
+																<input name="contact" maxlength="10"
+																	class="form-control form-control-lg" type="text" value="${student.contact}" />
 															</div>
 															<div class="form-group">
 																<label>Current City</label>
-																<form:input path="curr_city" id="address-autocomplete"
+																<input name="curr_city" id="address-autocomplete"
 																	maxlength="75" class="form-control form-control-lg"
-																	required="true" onFocus="geolocate()" />
+																	required="true" onFocus="geolocate()" value="${student.home_city}" />
 															</div>
 															<div class="form-group">
 																<label>Home City</label>
-																<form:input path="home_city" id="address-autocomplete2"
+																<input name="home_city" id="address-autocomplete2"
 																	maxlength="75" class="form-control form-control-lg"
 																	required="true" onFocus="geolocate()" />
 																<label><input type="checkbox" id="homeCityCheck">Same
@@ -314,28 +313,28 @@ padding: 5px 2px 7px 18px;
 																Setting</h4>
 															<div class="form-group">
 																<label>Skills</label>
-																<form:input path="skills"
-																	class="form-control form-control-lg" required="true" />
+																<input name="skills"
+																	class="form-control form-control-lg" required="true" value="${student.skills}"/>
 															</div>
 															<div class="form-group">
 																<label>Current Enrollment No</label>
-																<form:input path="curr_enroll_no"
-																	class="form-control form-control-lg" readonly="true" />
+																<input name="curr_enroll_no"
+																	class="form-control form-control-lg" readonly="true" value="12345"/>
 															</div>
 															<div class="form-group">
 																<label>Interest</label>
-																<form:input path="interest"
-																	class="form-control form-control-lg" />
+																<input name="interest"
+																	class="form-control form-control-lg" value="${student.interest}"/>
 															</div>
 															<div class="form-group">
 																<label>Hobbies</label>
-																<form:input path="hobbies"
-																	class="form-control form-control-lg" />
+																<input name="hobbies"
+																	class="form-control form-control-lg" value="${student.hobbies}"/>
 															</div>
 															<div class="form-group">
 																<label>Achievements</label>
-																<form:input path="achievements"
-																	class="form-control form-control-lg" />
+																<input name="achievements"
+																	class="form-control form-control-lg" value="${student.achievements}"/>
 															</div>
 															<div class="form-group">
 																<label>Select Profile Image</label>
@@ -350,7 +349,7 @@ padding: 5px 2px 7px 18px;
 															</div>
 														</li>
 													</ul>
-												</form:form>
+												</form>
 											</div>
 										</div>
 										<!-- Timeline Tab End -->
@@ -384,6 +383,7 @@ padding: 5px 2px 7px 18px;
 																</tr>
 															</thead>
 															<tbody>
+															
 																<c:forEach items="${studentPast}" var="studPast">
 																	<tr id="tr_${studPast.category}">
 																		<td>${studPast.category}</td>
@@ -437,29 +437,29 @@ padding: 5px 2px 7px 18px;
 																						<select id="degreeSelector" class="form-control"
 																							style="display: inline; height: 100%;">
 																							<option disabled="disabled" selected="selected">--Select Category--</option>
-																							<option value="${ProjectConstants.student_education_ssc}">SSC</option>
-																							<option value="${ProjectConstants.student_education_hsc}">HSC</option>
+																							<option value="SSC">SSC</option>
+																							<option value="HSC">HSC</option>
 																							<c:if test="${category!=ProjectConstants.student_education_diploma}">
 																								<option value="${ProjectConstants.student_education_diploma}">DIPLOMA</option>
 																							</c:if>
 																							<c:if test="${category==ProjectConstants.student_education_pg||category==ProjectConstants.student_education_phd||category=='none'||category==null}">
-																								<option value="${ProjectConstants.student_education_ug}">UG</option>
+																								<option value="UG">UG</option>
 																							</c:if>
 																							<c:if test="${category==ProjectConstants.student_education_phd||category=='none'||category==null}">
-																								<option value="${ProjectConstants.student_education_pg}">PG</option>
+																								<option value="PG">PG</option>
 																							</c:if>
 																							<c:if test="${category=='none'||category==null}">
-																								<option value="${ProjectConstants.student_education_phd}">PHD</option>
+																								<option value="PHD">PHD</option>
 																							</c:if>
 																						</select>
 
 																					</div>
 																				</div>
 																				<div id="edu_div" style="display: none">
-																					<form id="edu_form">
+																					<form id="edu_form2" action="saveStudentPast" method="post">
 																						<input type="hidden" value="0" name="stud_past_id"
 																							id="edu_stud_past_id" /> <input type="hidden"
-																							value="${user_data.user_id}" name="student_id" />
+																							value="${user.id}" name="student_id" />
 																						<input type="hidden" name="category"
 																							id="edu_category" />
 																						<div class="row">
@@ -480,7 +480,7 @@ padding: 5px 2px 7px 18px;
 																									</div>
 																									<br>
 																									<div id="organization_text">
-																										<input type="text" name="organization"
+																										<input type="text" name="organization" 
 																											class="form-control" id="edu_organization"
 																											maxlength="100" />
 																									</div>
@@ -511,6 +511,10 @@ padding: 5px 2px 7px 18px;
 																										name="department" id="edu_departments">
 																										<option selected value="" disabled="disabled">--Select
 																											a Stream/Degree--</option>
+																											<option value="bca">bca</option>
+																											<option value="bcca">bcca</option>
+																											<option value="bsc-it">bsc-it</option>
+																											<option value="bsc-cs">bsc-cs</option>
 																									</select>
 																								</div>
 																							</div>
@@ -644,80 +648,7 @@ padding: 5px 2px 7px 18px;
 
 																					</div>
 																				</div>
-																				<div id="edu_div" style="display: none">
-																					<form id="edu_form">
-																						<input type="hidden" value="0" name="stud_past_id"
-																							id="edu_stud_past_id" /> <input type="hidden"
-																							value="${user_data.user_id}" name="student_id" />
-																						<input type="hidden" name="category"
-																							id="edu_category" />
-																						<div class="row">
-																							<div class="col-md-6">
-																								<div class="form-group">
-																									<label id="edu_organization_label">School
-																										Name</label>
-																									<div id="existing_organization">
-																										<select class="form-control"
-																											id="existing_colleges">
-																											<option selected value="" disabled="disabled">--Select
-																												a Institute--</option>
-																											<c:forEach items="${colleges}" var="college">
-																												<option value="${college.college_id}">${college.college_name}</option>
-																											</c:forEach>
-																											<option value="other">Other</option>
-																										</select>
-																									</div>
-																									<br>
-																									<div id="organization_text">
-																										<input type="text" name="organization"
-																											class="form-control" id="edu_organization"
-																											maxlength="100" />
-																									</div>
-																								</div>
-																							</div>
-																							<div class="col-md-6">
-																								<div class="form-group">
-																									<label>Year of Passing</label> <input
-																										type="number" name="end_date"
-																										class="form-control" id="edu_enddate"
-																										min="1900"
-																										max="${ProjectConstants.current_year}"
-																										required />
-																								</div>
-																							</div>
-																							<div class="col-md-6">
-																								<div class="form-group">
-																									<label id="edu_board_label">Board/University</label>
-																									<input type="text" name="board"
-																										class="form-control" id="edu_board"
-																										maxlength="80" required />
-																								</div>
-																							</div>
-																								<div class="col-md-6" id="edu_department_div">
-																									<div class="form-group">
-																										<label>Stream/Degree</label> <select
-																											class="form-control mySelect"
-																											name="department" id="edu_departments">
-																											<option selected value="" disabled="disabled">--Select
-																												a Stream/Degree--</option>
-																										</select>
-																									</div>
-																								</div>
-																							<div class="col-md-6">
-																								<div class="form-group">
-																									<label>Marks(%)</label> <input type="text"
-																										name="description" class="form-control"
-																										id="edu_description"
-																										pattern="[0-9]{1,2}([\.][0-9]{0,2})?" required />
-																								</div>
-																							</div>
-																						</div>
-																						<div class="pull-right form-group">
-																							<input type="submit" class="btn btn-primary"
-																								value="Save" />
-																						</div>
-																					</form>
-																				</div>
+																			
 																			</li>
 																		</ul>
 																	</div>
@@ -920,7 +851,7 @@ padding: 5px 2px 7px 18px;
 						</div>
 						<div class="col-md-6" id="department_div1">
 							<div class="form-group">
-								<label>Skills</label> <input type="text" name="department" id="prof_department1"
+								<label>Skills</label> <input type="text" name="department" id="prof_department1" value="hhh"
 									class="form-control" required maxlength="80"/>
 							</div>
 						</div>
@@ -1484,6 +1415,35 @@ padding: 5px 2px 7px 18px;
 				job_table.row($('#rem' + studentPastId).parents('tr')).remove()
 						.draw();
 		}
+
+
+		function removeStudentEdu(studPastId) {
+    console.log("Attempting to remove student education with ID:", studPastId);
+
+    if (confirm('Are you sure you want to delete this record?')) {
+        $.ajax({
+            url: '/removeStudentPast/' + studPastId,
+            type: 'DELETE',
+            success: function(response) {
+                // Check response from the server
+                if(response === 'success') {
+                   
+                    window.location.reload();
+                } else {
+                    console.log("Delete failed: ", response);
+                    // Handle failure (e.g., show message to user)
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log("Error during delete:", xhr.responseText);
+                // Handle error (e.g., show message to user)
+            }
+        });
+    }
+}
+
+
+
 	</script>
 </body>
 </html>

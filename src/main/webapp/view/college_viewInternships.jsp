@@ -1,6 +1,8 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+		<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+		<%@include file="user_session.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -110,16 +112,14 @@
 	<div class="left-side-bar">
 		<div class="brand-logo">
 			<a href="javascript:;"> <img
-				src="<c:url value='/dist/dash/vendors/images/deskapp-logo.svg'/>" alt="" class="dark-logo"> 
-				<img src="<c:url value='/dist/dash/vendors/images/skillpilot_white.svg'/>" alt="" class="light-logo">
+				src="/dist/dash/vendors/images/deskapp-logo.svg" alt="" class="dark-logo"> 
+				<img src="/dist/dash/vendors/images/skillpilot_white.svg" alt="" class="light-logo">
 			</a>
 			<div class="close-sidebar" data-toggle="left-sidebar-close">
 				<i class="ion-close-round"></i>
 			</div>
 		</div>
-		<c:if test="${user_data.role eq '1'}">
-		<c:set var = "theString" value = "${user_data.user_id }
-		<c:if test = "${fn:contains(theString, 'CL')}">
+		<c:if test="${user.role eq '5'}">	
 		<div class="menu-block customscroll">
 					<div class="sidebar-menu">
 						<ul id="accordion-menu">
@@ -168,7 +168,8 @@
 							</a></li>
 						</ul>
 					</div>
-				</div></c:if></c:if>
+				</div>
+			</c:if>
 		<c:if test="${user_data.role eq '1'}">
 			<c:set var="theString" value="${user_data.user_id }" />
 			<c:if test="${fn:contains(theString, 'US')}">

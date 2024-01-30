@@ -1,5 +1,5 @@
 <%
-if(null!=session.getAttribute("user_data")){
+if(null!=session.getAttribute("user")){
 }else{
-response.sendRedirect("http://localhost:8080/SkillPilots/");}
+response.sendRedirect("http://localhost:8082/logout");}
 %>

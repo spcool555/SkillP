@@ -36,8 +36,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.Arc.model.CompAdvertisement;
+import com.Arc.model.Student;
+import com.Arc.model.StudentPast;
 import com.Arc.model.User;
+import com.Arc.service.ComponyService;
+import com.Arc.service.StudentService;
 import com.Arc.service.UserService;
+import com.mysql.cj.Session;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -48,7 +53,10 @@ public class StudentController {
 
 	@Autowired
 	private UserService userService;
-	
+	@Autowired
+	private ComponyService componyService;
+	@Autowired
+	private StudentService studentService;
 
 	/*student dashboard*/
 	@GetMapping("/stud_home")
@@ -59,9 +67,11 @@ public class StudentController {
 		if (user != null) {
 	        // Your logic for the student home page
 			List<CompAdvertisement> adv = userService.findAllAdv();
+			List<CompAdvertisement> allCities = componyService.getAllCities();
 			System.out.print(adv);
 			  model.addAttribute("adv", adv);
 	        model.addAttribute("user", user);
+	        model.addAttribute("cities", allCities);
 	        return "student_home";
 	    } else {
 	        // Handle the case where the user is not in the session (e.g., redirect to login)
@@ -167,11 +177,33 @@ public class StudentController {
 	}
 
 	@RequestMapping(value = "/editStudentProfile", method = RequestMethod.GET)
-	public String editProfile() {
+	public String editProfile(Model model, HttpSession session) throws Exception {
+		  User user = (User) session.getAttribute("user");
+		  if (user != null && user.getId() != null) {
+			    List<StudentPast> studentPast = studentService.findAllByStudentId(user.getId());
+			    model.addAttribute("studentPast", studentPast);
+			
+			    // further processing
+			} else {
+			    // Handle error scenariop
+				System.out.println("not work");
+			}
+		   
+		
+		   
+		    if (user == null) {
+		       
+		        return "redirect:/login";
+		    }
+		Long user_id = user.getId();
+		
+		Student studentById = studentService.getStudentById(user_id);
+		model.addAttribute("student", studentById);
+		
+		
 		
 		return "changeStudentProfile";
 	}
-
 	// getStudentPastProfessions
 	@RequestMapping(value = "/getStudentPastProfessions", method = RequestMethod.GET)
 	public @ResponseBody List<?> getStudentPastProfessions() {
@@ -180,10 +212,32 @@ public class StudentController {
 	}
 
 	@RequestMapping(value = "/editStudentProfile", method = RequestMethod.POST)
-	public String editStudentProfile() {
+	public String editStudentProfile(@ModelAttribute Student student, HttpSession session) {
+	    User user = (User) session.getAttribute("user");
+	   
+	    System.out.println(user);
+	   
+	    if (user == null) {
+	       
+	        return "redirect:/login";
+	    }
+	   
+	    Long userId = user.getId();
+	    student.setStudent_id(userId);
+	   
+	   
+	    student.setEmail_id(user.getEmail());
+	   
 	
-		return "redirect:stud_home";
+	    studentService.saveStudent(student);
+	  
+	    return "redirect:/stud_home";
 	}
+
+
+
+
+
 
 	//UPLOAD AND DOWNLOAD SECTION FOR NEW ADMISSION
 	/*    sk

@@ -1,6 +1,8 @@
-
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@include file="user_session.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -207,14 +209,14 @@ textarea.form-control {
 									</div>
 								</div>
 							</div>
-							<h5 class="text-center h5 mb-0">${user_data.username}</h5>
+							<h5 class="text-center h5 mb-0">${user.username}</h5>
 							<p class="text-center text-muted font-14"></p>
 							<div class="profile-info">
 								<h5 class="mb-20 h5 text-blue">Contact Information</h5>
 								<ul>
-									<li><span>Email Address:</span>${user_data.email_id}</li>
-									<li><span>Phone Number:</span> ${user_data.contact_no}</li>
-									<li><span>Account Verified :</span> ${user_data.acc_verified}
+									<li><span>Email Address:</span>${user.email}</li>
+									<li><span>Phone Number:</span> ${user.contact_no}</li>
+									<li><span>Account Verified :</span> ${user.verified}
 									</li>
 								</ul>
 							</div>
@@ -235,105 +237,88 @@ textarea.form-control {
 											role="tabpanel">
 											<div class="pd-20">
 												<c:url var="addAction" value="/editCompProfile"></c:url>
-					<form:form modelAttribute="company" action="${addAction}"
-						enctype="multipart/form-data" method="post">
-													<ul class="profile-edit-list row">
-														<li class="weight-500 col-md-6">
-															<h4 class="text-blue h5 mb-20">Edit Your Profile
-																Setting</h4>
-															<div class="form-group">
-																<label>Company Name</label>
-																<form:input path="company_name" class="form-control form-control-lg" readonly="true" />
-																<small id="namelabel" style="color: red;"></small>
-															</div>
-															<div class="form-group">
-																<label>Establishment Date</label>
-																<form:input path="estd_date" class="form-control form-control-lg" readonly="true" />
-															</div>
-															<div class="form-group">
-																<label>Email-Id</label>
-																<form:input path="email_id" class="form-control form-control-lg" readonly="true" />
-															</div>
-															<div class="form-group">
-																<label>Web URL</label>
-																<form:input path="web_url" placeholder="enter  url" class="form-control form-control-lg" required="true" maxlength="30" />
-															</div>
-															<div class="form-group">
-																<label>Registration No.(CIN/GST/etc)</label>
-																<form:input path="registration_no" class="form-control form-control-lg" readonly="true" />
-															</div>
-															<div class="form-group">
-																<label for="company_about">About Us</label>
-																<form:textarea path="about" class="form-control form-control-lg" rows="3" placeholder="About company..." required="true" style="height: auto !important;" maxlength="750"/>
-															</div>
-															
-															<div class="form-group">
-																<label>Upload Image</label>
-																<div class="custom-file">
-																	<input type="file" name="companylogo" accept="image/*"
-												id="upload-photo" class="custom-file-input form-control form-control-lg form-control-file"> <label
-																		class="custom-file-label">Choose file</label>
-																</div>
-															</div>
-															<div class="form-group">
-																<label>City</label>
-																<input id="address-autocomplete"
-											placeholder="Select city for your new address"
-											onFocus="geolocate()" type="text" class="form-control"></input>
-															</div>
-														</li>
-														<li class="weight-500 col-md-6">
-															<h4 class="text-blue h5 mb-20">Edit Your Personal
-																Setting</h4>
-																
-															<div class="form-group">
-																<label>Address (Line-1)</label>
-																<form:input path="address.line_1" class="form-control form-control-lg"
-										placeholder="Address line 1 " id="street_number" required="true" disabled="true" maxlength="100" />
-															</div>
-															<div class="form-group">
-																<label>Address (Line-2)</label>
-																<form:input path="address.line_2" class="form-control form-control-lg"
-										id="route" placeholder="Address line 2" disabled="true" maxlength="100" />
-															</div>
-															<div class="form-group">
-																<label>City</label>
-																<form:input path="address.city" class="form-control form-control-lg" 
-										placeholder="City" id="locality" readonly="true" required="true" maxlength="25" />
-															</div>
-															<div class="form-group">
-																<label>State</label>
-																<form:input path="address.state" class="form-control form-control-lg"
-										placeholder="State" id="administrative_area_level_1" readonly="true" required="true" maxlength="25" />
-															</div>
-															<div class="form-group">
-																<label>Country</label>
-																<form:input path="address.country" class="form-control form-control-lg"
-										placeholder="Country" id="country" readonly="true" required="true" maxlength="25" />
-															</div>
-															<div class="form-group">
-																<label>Pincode</label>
-																<form:input path="address.pincode" class="form-control form-control-lg" pattern="[0-9]{6}"
-										placeholder="Pincode" id="postal_code" disabled="true" maxlength="6" required="true" />
-															</div>
-															<div class="form-group">
-																<label>Contact 1</label>
-																<form:input type="text" path="contact_1" id="contact" class="form-control form-control-lg contact" pattern="\d*"
-												placeholder="enter contact No" onchange="checkContactExists(this)"
-												onblur="checkContactExists(this)" required="true" maxlength="12" minlength="10"/>
-															</div>
-															<div class="form-group">
-																<label>Contact 2</label>
-																<form:input type="text" path="contact_2" id="contact2" class="form-control form-control-lg contact" pattern="\d*"
-												placeholder="enter contact No" maxlength="12" minlength="10"/>
-															</div>
-															<div class="form-group mb-0">
-																<input type="submit" id="sbtn" class="btn btn-primary"
-																	value="Save & Update" />
-															</div>
-														</li>
-													</ul>
-												</form:form>
+					<form modelAttribute="company" action="${addAction}" enctype="multipart/form-data" method="post">
+    <ul class="profile-edit-list row">
+        <li class="weight-500 col-md-6">
+            <h4 class="text-blue h5 mb-20">Edit Your Profile Setting</h4>
+            <div class="form-group">
+                <label for="company_name">Company Name</label>
+                <input id="company_name" name="company_name"  value="${company.company_name}" class="form-control form-control-lg" readonly />
+                <small id="namelabel" style="color: red;"></small>
+            </div>
+            <div class="form-group">
+                <label for="estd_date">Establishment Date</label>
+                <input id="estd_date" name="estd_date" value="${company.estd_date}" class="form-control form-control-lg" readonly />
+            </div>
+            <div class="form-group">
+                <label for="email_id">Email-Id</label>
+                <input id="email_id" name="email_id" value="${company.email_id}"class="form-control form-control-lg" readonly />
+            </div>
+            <div class="form-group">
+                <label for="web_url">Web URL</label>
+                <input id="web_url" name="web_url" value="${company.web_url}"placeholder="Enter URL" class="form-control form-control-lg" required maxlength="30" />
+            </div>
+            <div class="form-group">
+                <label for="registration_no">Registration No.(CIN/GST/etc)</label>
+                <input id="registration_no" name="registration_no"value="${company.registration_no}" class="form-control form-control-lg" readonly />
+            </div>
+            <div class="form-group">
+                <label for="company_about">About Us</label>
+                <input id="company_about" name="about" value="${company.about}"class="form-control form-control-lg" placeholder="About company..." required maxlength="750"></input>
+            </div>
+            <div class="form-group">
+                <label for="company_logo">Upload Image</label>
+                <div class="custom-file">
+                    <input type="file" id="company_logo" name="companylogo" accept="image/*" class="custom-file-input form-control form-control-lg form-control-file">
+                    <label class="custom-file-label">Choose file</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address-autocomplete">City</label>
+                <input id="address-autocomplete" value="${company.city}" placeholder="Select city for your new address" onFocus="geolocate()" type="text" class="form-control">
+            </div>
+        </li>
+        <li class="weight-500 col-md-6">
+            <h4 class="text-blue h5 mb-20">Edit Your Personal Setting</h4>
+            <div class="form-group">
+                <label for="address_line1">Address (Line-1)</label>
+                <input id="address_line1" name="address.line_1" value="${company.line_1}" class="form-control form-control-lg" placeholder="Address line 1" required maxlength="100" disabled>
+            </div>
+            <div class="form-group">
+                <label for="address_line2">Address (Line-2)</label>
+                <input id="address_line2" name="address.line_2" value="${company.line_2}" class="form-control form-control-lg" placeholder="Address line 2" maxlength="100" disabled>
+            </div>
+            <div class="form-group">
+                <label for="city">City</label>
+                <input id="city" name="address.city" value="${company.city}" class="form-control form-control-lg" placeholder="City" readonly required maxlength="25">
+            </div>
+            <div class="form-group">
+                <label for="state">State</label>
+                <input id="state" name="address.state" value="${company.state}" class="form-control form-control-lg" placeholder="State" readonly required maxlength="25">
+            </div>
+            <div class="form-group">
+                <label for="country">Country</label>
+                <input id="country" name="address.country" value="${company.country}" class="form-control form-control-lg" placeholder="Country" readonly required maxlength="25">
+            </div>
+            <div class="form-group">
+                <label for="pincode">Pincode</label>
+                <input id="pincode" name="address.pincode" value="${company.pincode}" class="form-control form-control-lg" pattern="[0-9]{6}" placeholder="Pincode" disabled maxlength="6" required>
+            </div>
+            <div class="form-group">
+                <label for="contact1">Contact 1</label>
+                <input id="contact1" type="text" name="contact_1" value="${company.contact_1}" class="form-control form-control-lg contact" pattern="\d*" placeholder="Enter contact No" onchange="checkContactExists(this)" onblur="checkContactExists(this)" required maxlength="12" minlength="10">
+            </div>
+            <div class="form-group">
+                <label for="contact2">Contact 2</label>
+                <input id="contact2" type="text" name="contact_2" value="${company.contact_2}" class="form-control form-control-lg contact" pattern="\d*" placeholder="Enter contact No" maxlength="12" minlength="10">
+            </div>
+            <div class="form-group mb-0">
+                <input type="submit" id="sbtn" class="btn btn-primary" value="Save & Update">
+            </div>
+        </li>
+    </ul>
+</form>
+
 											</div>
 										</div>
 									</div>

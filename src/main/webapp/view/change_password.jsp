@@ -1,6 +1,7 @@
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@include file="user_session.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -219,9 +220,8 @@
 			</div>
 		</div></c:if>
 	</c:if>
-		<c:if test="${user.role eq '1'}">
-		<c:set var="theString" value="${user_data.user_id }" />
-			<c:if test="${fn:contains(theString, 'CP')}">
+		<c:if test="${user.role eq '2' || user.role eq '1'}">
+	
 				<div class="menu-block customscroll">
 			<div class="sidebar-menu">
 				<ul id="accordion-menu">
@@ -261,10 +261,10 @@
 				</ul>
 			</div>
 		</div>
-			</c:if>
+		
 
 		</c:if>
-		<c:if test="${user.role eq '0' }">
+		<c:if test="${user.role eq '0' || user.role eq '10' || user.role eq '8'}">
 		<div class="menu-block customscroll">
 			<div class="sidebar-menu">
 				<ul id="accordion-menu">
@@ -302,10 +302,72 @@
 			</div>
 		</div>
 	</c:if>
-<c:if test="${user_data.role eq '1'}">
-			<c:set var="theString" value="${user_data.user_id }" />
-			<c:if test="${fn:contains(theString, 'US')}">
-				
+	<c:if test="${user.role eq '7'}">
+			<div class="menu-block customscroll">
+			<div class="sidebar-menu">
+				<ul id="accordion-menu">
+					<li><a href="college_dashboard" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-house-1"></span><span class="mtext">Dashboard</span>
+					</a></li>
+					<li><a href="collegeViewInternships" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-certificate"></span><span class="mtext">Internships</span>
+					</a></li>
+					<li><a href="college_internal_req" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-computer-1"></span><span class="mtext">Internal Requests</span>
+					</a></li>
+					<li><a href="student_list" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-user3"></span><span class="mtext">Enroll Students</span>
+					</a></li>
+					<li><a href="college_dept" class="dropdown-toggle no-arrow">
+									<span class="micon dw dw-time-management"></span><span class="mtext">Manage
+										Departments</span>
+							</a></li>
+					<li><a href="getAppliedStudentsOfCollege" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-computer-1"></span><span class="mtext">Students Request</span>
+					</a></li>
+					<li><a href="college_report" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-edit-2"></span><span class="mtext">Internship Report</span>
+					</a></li>
+					<li><a href="certificate" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-certificate-1"></span><span class="mtext">View Certificate</span>
+					</a></li>
+					<li><a href="live_chat" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-chat3"></span><span class="mtext">Live Chat</span>
+					</a></li>
+
+				</ul>
+			</div>
+		</div>
+		</c:if>
+		<c:if test="${user.role eq '4'}">
+			<div class="menu-block customscroll">
+			<div class="sidebar-menu">
+				<ul id="accordion-menu">
+					<li><a href="company_dashboard" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-house-1"></span><span class="mtext">Dashboard</span>
+					</a></li>
+					<li><a href="company_internships" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-certificate"></span><span class="mtext">Internships</span>
+					</a></li>
+					<li><a href="company_internal_request" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-computer-1"></span><span class="mtext">Internal Request</span>
+					</a></li>
+					<!-- <li><a href="college_tie_up" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-repeat-1"></span><span class="mtext">Institute Tie-Ups</span>
+					</a></li> -->
+					<!-- <li><a href="add_company_member" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-user-11"></span><span class="mtext">Manage Teams</span>
+					</a></li> -->
+					<li><a href="live_chat" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-chat3"></span><span class="mtext">Live
+								Chat</span>
+					</a></li>
+				</ul>
+			</div>
+		</div>
+		</c:if>
+		<c:if test="${user.role eq '5'}">
+	
 				<div class="menu-block customscroll">
 					<div class="sidebar-menu">
 						<ul id="accordion-menu">
@@ -319,12 +381,12 @@
 							</a></li>
 							<li><a href="external_internship_request_college"
 								class="dropdown-toggle no-arrow"> <span
-									class="micon dw dw-computer-1""></span><span class="mtext">External
+									class="micon dw dw-computer-1"></span><span class="mtext">External
 										Requests</span>
 							</a></li>
 							<li><a href="college_internal_req"
 								class="dropdown-toggle no-arrow"> <span
-									class="micon dw dw-computer-1""></span><span class="mtext">Internal
+									class="micon dw dw-computer-1"></span><span class="mtext">Internal
 										Requests</span>
 							</a></li>
 							<li><a href="getAppliedStudentsOfCollege"
@@ -336,10 +398,10 @@
 									<span class="micon dw dw-flow"></span><span class="mtext">Industry
 										Tie-ups</span>
 							</a></li>
-							<!-- <li><a href="college_dept" class="dropdown-toggle no-arrow">
+							<li><a href="college_dept" class="dropdown-toggle no-arrow">
 									<span class="micon dw dw-time-management"></span><span class="mtext">Manage
 										Departments</span>
-							</a></li> -->
+							</a></li>
 							<li><a href="collegeTransactions"
 								class="dropdown-toggle no-arrow"> <span
 									class="micon dw dw-balance"></span><span class="mtext">Balances</span>
@@ -350,19 +412,95 @@
 										Reports</span>
 							</a></li>
 							<li><a href="certificate" class="dropdown-toggle no-arrow">
-									<span class="micon dw dw-certificate-1"></span><span class="mtext">View
-										Certificate</span>
+									<span class="micon dw dw-certificate-1"></span><span class="mtext">Certificate</span>
 							</a></li>
-							<li><a href="live_chat" class="dropdown-toggle no-arrow">
-									<span class="micon dw dw-chat-2"></span><span class="mtext">Live
-										Chat</span>
-							</a></li>
-
 						</ul>
 					</div>
 				</div>
-			
-			</c:if>
+		
+		</c:if>
+		<c:if test="${user.role eq '6'}">
+		
+		<div class="menu-block customscroll">
+			<div class="sidebar-menu">
+				<ul id="accordion-menu">
+					<li><a href="college_dashboard"
+						class="dropdown-toggle no-arrow"> <span
+							class="micon dw dw-house-1"></span><span class="mtext">Dashboard</span>
+					</a></li>
+					<li><a href="collegeViewInternships"
+						class="dropdown-toggle no-arrow"> <span
+							class="micon dw dw-certificate"></span><span class="mtext">Internships</span>
+					</a></li>
+					<li><a href="external_internship_request_college"
+						class="dropdown-toggle no-arrow"> <span
+							class="micon dw dw-computer-1"></span><span class="mtext">External
+								Requests</span>
+					</a></li>
+					<li><a href="college_internal_req"
+						class="dropdown-toggle no-arrow"> <span
+							class="micon dw dw-computer-1"></span><span class="mtext">Internal
+								Requests</span>
+					</a></li>
+					<li><a href="getAppliedStudentsOfCollege"
+						class="dropdown-toggle no-arrow"> <span
+							class="micon dw dw-user3"></span><span class="mtext">Student
+								Application</span>
+					</a></li>
+					<li><a href="comp_tie_up" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-flow"></span><span class="mtext">Industry
+								Tie-ups</span>
+					</a></li>
+					<li><a href="college_dept" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-time-management"></span><span class="mtext">Manage
+								Departments</span>
+					</a></li>
+					<li><a href="collegeTransactions"
+						class="dropdown-toggle no-arrow"> <span
+							class="micon dw dw-balance"></span><span class="mtext">Balances</span>
+					</a></li>
+					<li><a href="college_report"
+						class="dropdown-toggle no-arrow"> <span
+							class="micon dw dw-edit-2"></span><span class="mtext">Internship
+								Reports</span>
+					</a></li>
+					<li><a href="certificate" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-certificate-1"></span><span class="mtext">Certificate</span>
+					</a></li>
+					<li><a href="live_chat" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-chat3"></span><span class="mtext">Live
+								Chat</span>
+					</a></li>
+				</ul>
+			</div>
+		</div>
+	</c:if>
+	<c:if test="${user.role eq '3'}">
+			<div class="menu-block customscroll">
+			<div class="sidebar-menu">
+				<ul id="accordion-menu">
+					<li><a href="company_dashboard" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-house-1"></span><span class="mtext">Dashboard</span>
+					</a></li>
+					<li><a href="company_internships" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-certificate"></span><span class="mtext">Internships</span>
+					</a></li>
+					<li><a href="company_internal_request" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-computer-1"></span><span class="mtext">Internal Request</span>
+					</a></li>
+					<li><a href="college_tie_up" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-repeat-1"></span><span class="mtext">Institute Tie-Ups</span>
+					</a></li>
+					<li><a href="add_company_member" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-user-11"></span><span class="mtext">Manage Teams</span>
+					</a></li> 
+					<li><a href="live_chat" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-chat3"></span><span class="mtext">Live
+								Chat</span>
+					</a></li>
+				</ul>
+			</div>
+		</div>
 		</c:if>
 	</div>
 	<div class="mobile-menu-overlay"></div>

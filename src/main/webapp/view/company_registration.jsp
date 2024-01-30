@@ -223,7 +223,7 @@
 											<label class="col-sm-4 col-form-label">Email-Id<span style="color: red">*</span></label>
 											<div class="col-sm-8">
 												<input
-										type="text" name="uemail" id="mail_id2" class="form-control" maxlength="50"
+										type="text" name="email" id="mail_id2" class="form-control" maxlength="50"
 										pattern="[a-z0-9._%+-]+@[a-z0-9.-]+(\.[a-z]+){1,2}$" required="true"
 										placeholder="Enter Email-Id" >
 									<small id="maillabel2" style="color: red;"></small>
@@ -233,7 +233,7 @@
 											<label class="col-sm-4 col-form-label">Contact Number<span style="color: red">*</span></label>
 											<div class="col-sm-8">
 												<input
-										type="text" name="ucontact" id="contact3" class="form-control contact" pattern="\d*"
+										type="text" name="contact" id="contact3" class="form-control contact" pattern="\d*"
 										placeholder="enter contact No" onchange="checkContactExists(this)"
 										onblur="checkContactExists(this)"  maxlength="10" minlength="10"> <small
 										id="contact3_error" style="color: red;"></small>
@@ -242,7 +242,7 @@
 										<div class="form-group row align-items-center">
 											<label class="col-sm-4 col-form-label">Gender</label>
 											<div class="col-sm-8">
-												<select name="ugender" class="form-control" style="padding:0px!important; cursor:pointer;" required="true">
+												<select name="gender" class="form-control" style="padding:0px!important; cursor:pointer;" required="true">
 										<option selected value="" disabled="disabled">--Select Gender--</option>
 										<option value="M">Male</option>
 										<option value="F">Female</option>

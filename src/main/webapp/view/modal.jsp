@@ -119,7 +119,7 @@
 				<div class="modal-header" style="background: #317c9ee3;padding-top: 3px;padding-bottom: 2px;">
 					<h5 class="modal-title" id="myLargeModalLabel" style="color: white;">Interns Group Details</h5>
 					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">×</button>
+						aria-hidden="true">ï¿½</button>
 				</div>
 				<div id="reject_id" class="modal-body rid">
 					<table class="table table-bordered table-sm">
@@ -139,16 +139,16 @@
 	</div>
 </c:if>
 
-<c:if test="${inst_type eq ProjectConstants.user_initials_college}">
-	<div class="modal fade show" id="raised_Modal" tabindex="-1"
+<!-- <c:if test="${user.role eq '7'}"> -->
+	<div class="modal fade show" id="raised_Modal2" tabindex="-1"
 		role="dialog" aria-labelledby="myLargeModalLabel" aria-modal="true">
-		<div class="modal-dialog modal-lg modal-dialog-centered"">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header" style="height: 48px; background: #0f2c7eeb;">
 					<h6 class="modal-title text-center" id="myLargeModalLabel"
 						style="color: white;">Apply Internhship</h6>
 					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">×</button>
+						aria-hidden="true">x</button>
 				</div>
 				<div class="modal-body">
 					<div class="col-sm-12 form-inline">
@@ -294,4 +294,4 @@
 		</div>
 	</div>
 	<!-- Rejection model  /*end*/ -->
-</c:if>
+<!-- </c:if> -->

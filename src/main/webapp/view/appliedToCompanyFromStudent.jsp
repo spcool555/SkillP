@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@include file="user_session.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -346,6 +348,7 @@
 			<%@include file="footer.jsp"%>
 		</div>
 	</div>
+
 	<!-- js -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.0/jquery.min.js"></script>
 	<script src="/dist/js/myjs/onlineTestScript.js"></script>

@@ -22,6 +22,7 @@ public class User {
  private Long contact_no;
  private String team_name;   // this used temrory because this field come from another table please check latter
  private short type;
+ private String gender;
  
  public User(Long id, String username, String password, String email, String otp, String department, Long contact_no,
 		String role, boolean verified) {
